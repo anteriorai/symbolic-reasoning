@@ -1,10 +1,3 @@
-# Clinical record
-
-A fictional admission record written for this example. The patient, clinicians
-and hospital are invented, and clinicians are named by role. Times are given as
-days of the admission. Some statements conflict on purpose: this is source
-material for an oracle, not a clinical summary.
-
 ## Authorization request
 
 From: Case management, Example General Hospital
