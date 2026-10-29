@@ -1,0 +1,44 @@
+{
+  "name": "@anteriorai/srg-types",
+  "version": "0.6.1",
+  "private": false,
+  "license": "Apache-2.0",
+  "description": "TypeScript types for SRG (Symbolic Reasoning Graph) schema",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "keywords": [
+    "srg",
+    "types",
+    "typescript",
+    "symbolic-reasoning",
+    "json-schema"
+  ],
+  "devDependencies": {
+    "typescript": "5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anteriorai/symbolic-reasoning.git",
+    "directory": "packages/srg-types"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

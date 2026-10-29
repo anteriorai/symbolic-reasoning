@@ -1,0 +1,55 @@
+policy_context: "Residential mortgage underwriting. Decide whether to approve an application, deny it, or route it to a human underwriter."
+
+predicate has_good_credit: "Is the applicant's credit score 700 or above?"
+  label: "Credit score"
+  context: "Use the credit_score field."
+
+predicate has_stable_income: "Has the applicant held stable employment for at least two years?"
+  label: "Employment stability"
+  context: "Judge continuity of employment, not merely tenure at the current employer. A move between employers without a gap, in the same field, counts as continuous."
+
+predicate has_low_dti: "Is the applicant's debt-to-income ratio below 43%?"
+  label: "Debt-to-income"
+  context: "Use the debt_to_income_ratio field, which is already computed."
+
+predicate appraisal_supports_price: "Does the appraisal support the purchase price?"
+  label: "Appraisal"
+  context: "Compare appraised_value_usd against purchase_price_usd."
+
+predicate has_clear_title: "Is the title free of unresolved encumbrances?"
+  label: "Title"
+  context: "Review the title_report field. Released liens do not count."
+
+predicate has_down_payment: "Has the applicant provided a down payment of at least 20% of the purchase price?"
+  label: "Down payment"
+  context: "Use the down_payment_pct field, which is already computed."
+
+predicate has_reserves: "Does the applicant hold cash reserves covering at least six monthly payments?"
+  label: "Reserves"
+  context: "Compare reserves_usd against monthly_payment_usd."
+
+predicate has_co_signer: "Is there a co-signer on the application?"
+  label: "Co-signer"
+  context: "A co-signer is present only if the co_signer field is populated."
+
+define borrower_ok: all(has_good_credit, has_stable_income, has_low_dti)
+  label: "Borrower risk"
+
+define property_ok: all(appraisal_supports_price, has_clear_title)
+  label: "Collateral risk"
+
+define compensating: any(has_reserves, has_co_signer)
+  label: "Compensating factors"
+
+define insufficient_down_payment: not(has_down_payment)
+  label: "Insufficient down payment"
+
+outcome approved: "Loan approved"
+outcome manual_review: "Sent to manual review"
+outcome denied: "Loan denied"
+
+path approve: all(borrower_ok, property_ok, has_down_payment) => approved
+path review: all(borrower_ok, property_ok, insufficient_down_payment, compensating) => manual_review
+path deny_borrower: not(borrower_ok) => denied
+path deny_property: not(property_ok) => denied
+path deny_down_payment: all(borrower_ok, property_ok, insufficient_down_payment, not(compensating)) => denied

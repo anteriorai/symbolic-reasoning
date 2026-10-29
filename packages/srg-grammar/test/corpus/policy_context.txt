@@ -1,0 +1,42 @@
+==================
+Policy context and predicate context
+==================
+
+policy_context: "Underwriting"
+predicate p: "Question"
+  context: "Check date of birth"
+
+---
+
+(source_file
+  (policy_context_definition (string))
+  (predicate_definition
+    (identifier)
+    (string)
+    (context_property (string))))
+
+==================
+Multiline policy context after definitions
+==================
+
+outcome approved: "Approved"
+policy_context: """
+Use the 2026 policy.
+Apply it to the application date.
+"""
+
+---
+
+(source_file
+  (outcome_definition (identifier) (string))
+  (policy_context_definition (string)))
+
+==================
+Empty policy context
+==================
+
+policy_context: ""
+
+---
+
+(source_file (policy_context_definition (string)))

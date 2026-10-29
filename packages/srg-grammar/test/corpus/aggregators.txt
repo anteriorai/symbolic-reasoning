@@ -1,0 +1,237 @@
+==================
+All expression
+==================
+
+define basic: all(is_adult, has_insurance)
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))))
+
+==================
+AtLeast expression
+==================
+
+define check: atleast(2, p1, p2, p3)
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (atleast_expression
+        count: (integer)
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))))
+
+==================
+Nested aggregators
+==================
+
+define complex: all(basic, any(p1, p2))
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (any_expression
+              (argument_list
+                (expression
+                  (reference (identifier)))
+                (expression
+                  (reference (identifier)))))))))))
+
+==================
+Not expression
+==================
+
+define check: not(is_adult)
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (not_expression
+        expr: (expression
+          (reference (identifier)))))))
+
+==================
+Named aggregator referencing another named aggregator
+==================
+
+define basic: all(p1, p2)
+define advanced: any(basic, p3)
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier)))))))
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (any_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))))
+
+==================
+Aggregator with metadata
+==================
+
+define check: all(p1, p2)
+  metadata: {
+    version: 2
+  }
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (number)))))))
+
+==================
+Multiple named aggregators chained
+==================
+
+define level1: all(p1, p2)
+define level2: any(level1, p3)
+define level3: atleast(2, level1, level2, p4)
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier)))))))
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (any_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier)))))))
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (atleast_expression
+        count: (integer)
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))))
+
+==================
+Aggregator with citation reference
+==================
+
+define basic: all(is_adult, has_insurance)
+  cite: eligibility_rules
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    (cite_property
+      citation: (identifier))))
+
+==================
+Aggregator with multiple properties
+==================
+
+define basic: all(is_adult, has_insurance)
+  label: "Basic Eligibility Check"
+  cite: [eligibility_rules, federal_law]
+  metadata: {
+    version: 2
+  }
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    (label_property
+      value: (string))
+    (cite_property
+      (citation_array
+        citation: (identifier)
+        citation: (identifier)))
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (number)))))))

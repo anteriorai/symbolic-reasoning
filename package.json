@@ -1,0 +1,34 @@
+{
+  "name": "symbolic-reasoning",
+  "version": "0.1.0",
+  "description": "Symbolic Reasoning - Deterministic decision-making framework",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "workspaces": [
+    "packages/srg-types",
+    "packages/srg-grammar",
+    "packages/srg-parser",
+    "packages/srg-compiler"
+  ],
+  "engines": {
+    "node": ">=24.11.1 <25",
+    "npm": ">=11.6.0 <12"
+  },
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "verify": "npm run build && npm run test",
+    "lock:regen": "npm install --strict-peer-deps --prefer-dedupe",
+    "lock:check": "npm run lock:regen && git diff --exit-code package-lock.json",
+    "changeset": "changeset",
+    "version": "changeset version && uv version --no-sync $(node -p \"require('./packages/srg-types/package.json').version\") && uv lock --project examples/integrations/jev && npm install --package-lock-only --strict-peer-deps --prefer-dedupe",
+    "release": "npm run build && npm run test && changeset publish",
+    "generate": "node schemas/generate.js"
+  },
+  "devDependencies": {
+    "@changesets/changelog-git": "^0.2.1",
+    "@changesets/cli": "^2.29.8",
+    "json-schema-to-typescript": "15.0.4"
+  }
+}

@@ -1,0 +1,286 @@
+==================
+Simple path
+==================
+
+path simple_approval: is_adult => approved
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    outcome: (identifier)))
+
+==================
+Path with aggregator
+==================
+
+path agg_approval: all(is_adult, has_insurance) => approved
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    outcome: (identifier)))
+
+==================
+Path with not
+==================
+
+path not_adult_denied: not(is_adult) => denied
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (not_expression
+        expr: (expression
+          (reference (identifier)))))
+    outcome: (identifier)))
+
+==================
+Multiple paths
+==================
+
+path basic_approved: basic => approved
+path not_basic_denied: not(basic) => denied
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    outcome: (identifier))
+  (path
+    id: (identifier)
+    step: (expression
+      (not_expression
+        expr: (expression
+          (reference (identifier)))))
+    outcome: (identifier)))
+
+==================
+Chained path - two steps
+==================
+
+path chained_two: root => all(is_adult, has_insurance) => approved
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    step: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    outcome: (identifier)))
+
+==================
+Chained path - three steps
+==================
+
+path chained_three: root => basic_check => any(p3, p4) => approved
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    step: (expression
+      (reference (identifier)))
+    step: (expression
+      (any_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    outcome: (identifier)))
+
+==================
+Chained path with not
+==================
+
+path chained_not: root => not(is_minor) => approved
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    step: (expression
+      (not_expression
+        expr: (expression
+          (reference (identifier)))))
+    outcome: (identifier)))
+
+==================
+Chained path - complex aggregators
+==================
+
+path complex_aggs: all(p1, p2) => any(p3, p4) => approved
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    step: (expression
+      (any_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    outcome: (identifier)))
+
+==================
+Chained path - nested aggregator in chain
+==================
+
+path nested_agg: root => all(p1, any(p2, p3)) => outcome1
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    step: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (any_expression
+              (argument_list
+                (expression
+                  (reference (identifier)))
+                (expression
+                  (reference (identifier)))))))))
+    outcome: (identifier)))
+
+==================
+Path with label property
+==================
+
+path labeled_path: is_adult => approved
+  label: "Adult Approval Path"
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    outcome: (identifier)
+    (label_property
+      value: (string))))
+
+==================
+Path with multiple properties
+==================
+
+path complex_path: root => all(p1, p2) => approved
+  label: "Complex Approval"
+  doc: "Multi-step approval process"
+  cite: approval_policy
+  metadata: {
+    version: 1,
+    critical: true
+  }
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    step: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    outcome: (identifier)
+    (label_property
+      value: (string))
+    (doc_property
+      value: (string))
+    (cite_property
+      citation: (identifier))
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (number)))
+        (property
+          key: (identifier)
+          value: (property_value
+            (boolean)))))))
+
+==================
+Negative and mixed path arrows
+==================
+
+path fallback: requested => home !=> facility !=> review
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression (reference (identifier)))
+    step: (expression (reference (identifier)))
+    step: (expression (reference (identifier)))
+    outcome: (identifier)))
+
+==================
+Negative arrow to outcome
+==================
+
+path rejected: check !=> review
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression (reference (identifier)))
+    outcome: (identifier)))

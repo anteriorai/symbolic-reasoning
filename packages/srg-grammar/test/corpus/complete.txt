@@ -1,0 +1,235 @@
+==================
+Complete policy
+==================
+
+# Healthcare eligibility policy
+
+predicate is_adult: "Is patient 18?"
+predicate has_insurance: "Has insurance?"
+
+outcome approved: "Approved"
+outcome denied: "Denied"
+
+define basic: all(is_adult, has_insurance)
+
+path basic_approved: basic => approved
+path not_adult_denied: not(is_adult) => denied
+
+---
+
+(source_file
+  (comment)
+  (predicate_definition
+    id: (identifier)
+    question: (string))
+  (predicate_definition
+    id: (identifier)
+    question: (string))
+  (outcome_definition
+    id: (identifier)
+    description: (string))
+  (outcome_definition
+    id: (identifier)
+    description: (string))
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier)))))))
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    outcome: (identifier))
+  (path
+    id: (identifier)
+    step: (expression
+      (not_expression
+        expr: (expression
+          (reference (identifier)))))
+    outcome: (identifier)))
+
+==================
+Complete policy with properties and citations
+==================
+
+# test comment
+
+citation age_req: {
+  source_ref: "CFR-42-123.pdf"
+  regions: [
+    { page: 23, box: [[0.1, 0.2], [0.9, 0.2], [0.9, 0.4], [0.1, 0.4]] }
+  ]
+  excerpt: "Age requirement per CFR 42.123"
+}
+
+predicate is_adult: "Is patient 18?"
+  cite: age_req
+  context: "Check DOB"
+  metadata: {
+    priority: 1
+  }
+
+predicate has_insurance: """Does the patient have active insurance coverage
+that includes the requested service?"""
+  metadata: {
+    tags: ["eligibility", "insurance"]
+  }
+
+outcome approved: "Approved"
+  metadata: {
+    notification_required: true
+  }
+
+outcome denied: "Denied"
+  metadata: {
+    notification_required: false,
+    requires_review: true
+  }
+
+define basic: all(is_adult, has_insurance)
+  label: "Basic Eligibility"
+  doc: "Basic eligibility check"
+  metadata: {
+    version: 2
+  }
+
+path basic_approved: basic => approved
+path not_adult_denied: not(is_adult) => denied
+
+---
+
+(source_file
+  (comment)
+  (citation_definition
+    id: (identifier)
+    (property_block
+      (property
+        key: (identifier)
+        value: (property_value
+          (string)))
+      (property
+        key: (identifier)
+        value: (property_value
+          (property_array
+            (property_value
+              (property_object
+                (property
+                  key: (identifier)
+                  value: (property_value
+                    (number)))
+                (property
+                  key: (identifier)
+                  value: (property_value
+                    (property_array
+                      (property_value
+                        (property_array
+                          (property_value
+                            (number))
+                          (property_value
+                            (number))))
+                      (property_value
+                        (property_array
+                          (property_value
+                            (number))
+                          (property_value
+                            (number))))
+                      (property_value
+                        (property_array
+                          (property_value
+                            (number))
+                          (property_value
+                            (number))))
+                      (property_value
+                        (property_array
+                          (property_value
+                            (number))
+                          (property_value
+                            (number))))))))))))
+      (property
+        key: (identifier)
+        value: (property_value
+          (string)))))
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (cite_property
+      citation: (identifier))
+    (context_property
+      value: (string))
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (number))))))
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (property_array
+              (property_value
+                (string))
+              (property_value
+                (string))))))))
+  (outcome_definition
+    id: (identifier)
+    description: (string)
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (boolean))))))
+  (outcome_definition
+    id: (identifier)
+    description: (string)
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (boolean)))
+        (property
+          key: (identifier)
+          value: (property_value
+            (boolean))))))
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    (label_property
+      value: (string))
+    (doc_property
+      value: (string))
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (number))))))
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    outcome: (identifier))
+  (path
+    id: (identifier)
+    step: (expression
+      (not_expression
+        expr: (expression
+          (reference (identifier)))))
+    outcome: (identifier)))

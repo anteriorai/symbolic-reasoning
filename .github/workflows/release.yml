@@ -1,0 +1,66 @@
+name: Release (Changesets)
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch: {}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: package.json
+          registry-url: "https://registry.npmjs.org"
+          scope: "@anteriorai"
+          cache: "npm"
+
+      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Get next release version
+        id: next-version
+        run: |
+          npx changeset status --output=release.json
+          # We use releases[0] because all packages are in a fixed group so they all share the same version number
+          echo "version=$(cat release.json | jq -r '.releases[0].newVersion')" >> "$GITHUB_OUTPUT"
+          rm release.json
+
+      - name: Create Release Pull Request or Publish
+        id: changesets
+        uses: changesets/action@e87c8ed249971350e47fab7515075f44eb134e5b # v1.7.0
+        with:
+          title: "chore: release v${{steps.next-version.outputs.version}}"
+          commit: "chore: release v${{steps.next-version.outputs.version}}"
+          version: npm run version
+          publish: npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  pypi:
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+      - run: uv build
+      - run: uv publish

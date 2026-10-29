@@ -1,0 +1,63 @@
+{
+  "$schema": "https://code.visualstudio.com/schemas/language-configuration",
+  "comments": {
+    "lineComment": "#"
+  },
+  "brackets": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"]
+  ],
+  "autoClosingPairs": [
+    { "open": "{", "close": "}" },
+    { "open": "[", "close": "]" },
+    { "open": "(", "close": ")" },
+    { "open": "\"", "close": "\"", "notIn": ["string"] }
+  ],
+  "surroundingPairs": [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"],
+    ["\"", "\""]
+  ],
+  "folding": {
+    "markers": {
+      "start": "^\\s*#region\\b",
+      "end": "^\\s*#endregion\\b"
+    }
+  },
+  "wordPattern": "(-?\\d*\\.\\d\\w*)|([^\\`\\~\\!\\@\\#\\%\\^\\&\\*\\(\\)\\-\\=\\+\\[\\{\\]\\}\\\\\\|\\;\\:\\'\\\"\\,\\.\\<\\>\\/\\?\\s]+)",
+  
+  "_metadata": {
+    "description": "Language metadata for tooling",
+    "version": "1.0.0",
+    
+    "tokens": {
+      "keyword": ["predicate", "outcome", "define", "citation", "path", "policy_context"],
+      "function.builtin": ["all", "any", "none", "not", "atleast", "atmost", "exactly"],
+      "constant.language": ["true", "false"],
+      "operator": ["=>", ":"],
+      "property": [
+        "label", "doc", "cite", "context", "metadata",
+        "source_ref", "filename", "regions", "excerpt", "page", "box"
+      ]
+    },
+    
+    "schemas": {
+      "citation": {
+        "description": "Citation block properties",
+        "properties": ["source_ref", "filename", "regions", "excerpt", "page", "box", "context"],
+        "required": ["source_ref"]
+      },
+      "metadata": {
+        "description": "Common metadata keys for user-defined metadata blocks",
+        "commonKeys": ["version", "author", "date", "tags", "priority", "category"]
+      }
+    },
+    
+    "editor": {
+      "extensions": [".srg"],
+      "defaultMimeType": "text/x-srg"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>@@TITLE@@</title>
+  <style>@@STYLE@@</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand" aria-hidden="true">srg<span>↗</span></div>
+    <div class="heading"><h1>@@TITLE@@</h1><p>Execution explorer</p></div>
+  </header>
+  <main>
+    <section class="graph-panel" aria-label="Execution graph">
+      <div class="graph-toolbar">
+        <div><span class="eyebrow">POLICY MAP</span><span id="graph-count" class="muted"></span></div>
+        <div class="zoom-controls"><button id="follow" aria-pressed="false" title="Keep the current batch in view">Follow</button><button id="zoom-out" aria-label="Zoom out">−</button><button id="fit">Fit</button><button id="zoom-in" aria-label="Zoom in">+</button></div>
+      </div>
+      <div id="viewport" tabindex="0" aria-label="Policy graph. Drag to pan, scroll to zoom, or use the zoom controls.">
+        <div id="world"><svg id="edges" aria-hidden="true"></svg><div id="cards"></div></div>
+      </div>
+      <div class="legend"><span><i class="line-key"></i>Traversed</span><span><i class="dot-key"></i>Applied this batch</span><span>Click a card to inspect</span></div>
+    </section>
+    <aside aria-label="Execution details">
+      <div class="aside-heading"><span class="eyebrow">INSPECTOR</span><button id="overview">Overview</button></div>
+      <div id="inspector"></div>
+    </aside>
+  </main>
+  <footer>
+    <div class="playback-top"><div><span id="step-label" class="step-label"></span><span id="run-status" class="run-status"></span></div></div>
+    <div class="transport">
+      <button id="previous" aria-label="Previous batch">←</button>
+      <button id="play" class="primary" aria-label="Play recording">Play</button>
+      <button id="next" aria-label="Next batch">→</button>
+      <input id="timeline" type="range" min="0" max="0" value="0" aria-label="Execution batch">
+    </div>
+    <div id="batch-summary" class="batch-summary" aria-live="polite"></div>
+  </footer>
+  <script id="history-data" type="application/json">@@DATA@@</script>
+  <script>/* @@LICENSE@@ */
+@@LAYOUT@@</script>
+  <script>@@SCRIPT@@</script>
+</body>
+</html>

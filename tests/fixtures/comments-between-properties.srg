@@ -1,0 +1,14 @@
+# Comments do not terminate a declaration's properties.
+predicate p: "Question" # inline comment
+  label: "Predicate"
+  # standalone comment
+  context: "Context"
+
+outcome o: "Outcome" # inline comment
+  label: "Outcome"
+
+define a: all(p) # inline comment
+  label: "Aggregator"
+
+path decision: a => o # inline comment
+  label: "Path"

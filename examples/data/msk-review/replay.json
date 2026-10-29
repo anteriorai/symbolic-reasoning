@@ -1,0 +1,713 @@
+{
+  "srg": {
+    "predicates": {
+      "fracture": {
+        "type": "Predicate",
+        "id": "fracture",
+        "question": "Does imaging confirm an unstable or displaced fracture?",
+        "label": "Displaced or unstable fracture",
+        "doc": null,
+        "citation_ids": [
+          "guideline_1"
+        ],
+        "context": "Guideline PDF page 1. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "nonunion": {
+        "type": "Predicate",
+        "id": "nonunion",
+        "question": "Is there non-union or malunion despite conservative treatment?",
+        "label": "Non-union or malunion",
+        "doc": null,
+        "citation_ids": [
+          "guideline_1"
+        ],
+        "context": "Guideline PDF page 1. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "complex_fracture": {
+        "type": "Predicate",
+        "id": "complex_fracture",
+        "question": "Is an open or complex fracture associated with infection risk or long-term disability?",
+        "label": "Qualifying complex fracture",
+        "doc": null,
+        "citation_ids": [
+          "guideline_1"
+        ],
+        "context": "Guideline PDF page 1. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "advanced_degeneration": {
+        "type": "Predicate",
+        "id": "advanced_degeneration",
+        "question": "Does radiography document advanced degenerative changes?",
+        "label": "Advanced degeneration",
+        "doc": null,
+        "citation_ids": [
+          "guideline_2"
+        ],
+        "context": "Guideline PDF page 2. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "refractory_symptoms": {
+        "type": "Predicate",
+        "id": "refractory_symptoms",
+        "question": "Is severe pain or stiffness unresponsive to conservative measures?",
+        "label": "Refractory pain or stiffness",
+        "doc": null,
+        "citation_ids": [
+          "guideline_2"
+        ],
+        "context": "Guideline PDF page 2. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "injections_failed": {
+        "type": "Predicate",
+        "id": "injections_failed",
+        "question": "Have injection therapies failed?",
+        "label": "Injections unsuccessful",
+        "doc": null,
+        "citation_ids": [
+          "guideline_2"
+        ],
+        "context": "Guideline PDF page 2. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "rehab_failed": {
+        "type": "Predicate",
+        "id": "rehab_failed",
+        "question": "Has physical therapy or a weight-loss intervention failed after at least three months?",
+        "label": "Three-month alternative trial",
+        "doc": null,
+        "citation_ids": [
+          "guideline_2"
+        ],
+        "context": "Guideline PDF page 2. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "limited_rom": {
+        "type": "Predicate",
+        "id": "limited_rom",
+        "question": "Is reduced range of motion or strength documented?",
+        "label": "Reduced range of motion",
+        "doc": null,
+        "citation_ids": [
+          "guideline_1"
+        ],
+        "context": "Guideline PDF page 1. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "mobility_loss": {
+        "type": "Predicate",
+        "id": "mobility_loss",
+        "question": "Does loss of mobility affect self-care or usual activities?",
+        "label": "Mobility affects daily activities",
+        "doc": null,
+        "citation_ids": [
+          "guideline_1"
+        ],
+        "context": "Guideline PDF page 1. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "hemodynamics": {
+        "type": "Predicate",
+        "id": "hemodynamics",
+        "question": "Is the patient hemodynamically stable at this snapshot?",
+        "label": "Hemodynamically stable",
+        "doc": null,
+        "citation_ids": [
+          "guideline_4"
+        ],
+        "context": "Guideline PDF page 4. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "rehab_cleared": {
+        "type": "Predicate",
+        "id": "rehab_cleared",
+        "question": "Has the treating team cleared the planned supervised mobilization with appropriate precautions?",
+        "label": "Mobilization cleared",
+        "doc": null,
+        "citation_ids": [
+          "guideline_4"
+        ],
+        "context": "Guideline PDF page 4. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+      },
+      "therapy_prescribed": {
+        "type": "Predicate",
+        "id": "therapy_prescribed",
+        "question": "Is a supervised rehabilitation plan prescribed with goals and precautions?",
+        "label": "Therapy plan prescribed",
+        "doc": null,
+        "citation_ids": [
+          "guideline_5"
+        ],
+        "context": "Guideline PDF page 5. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+      },
+      "participation": {
+        "type": "Predicate",
+        "id": "participation",
+        "question": "Does the assessment document ability to participate in the prescribed therapy with assistance?",
+        "label": "Can participate with assistance",
+        "doc": null,
+        "citation_ids": [
+          "guideline_4"
+        ],
+        "context": "Guideline PDF page 4. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+      },
+      "needs_mobility_help": {
+        "type": "Predicate",
+        "id": "needs_mobility_help",
+        "question": "Does the recovery-support assessment identify a need for mobility assistance?",
+        "label": "Mobility assistance needed",
+        "doc": null,
+        "citation_ids": [
+          "guideline_5"
+        ],
+        "context": "Guideline PDF page 5. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+      },
+      "needs_dressing_help": {
+        "type": "Predicate",
+        "id": "needs_dressing_help",
+        "question": "Does the recovery-support assessment identify a need for dressing assistance?",
+        "label": "Wound-care assistance needed",
+        "doc": null,
+        "citation_ids": [
+          "guideline_5"
+        ],
+        "context": "Guideline PDF page 5. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+      },
+      "home_ready": {
+        "type": "Predicate",
+        "id": "home_ready",
+        "question": "Is the home environment assessed as suitable for safe recovery?",
+        "label": "Home environment suitable",
+        "doc": null,
+        "citation_ids": [
+          "guideline_6"
+        ],
+        "context": "Guideline PDF page 6. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "care_tasks": {
+        "type": "Predicate",
+        "id": "care_tasks",
+        "question": "Can the patient or caregivers understand and manage the required recovery care tasks?",
+        "label": "Care tasks manageable",
+        "doc": null,
+        "citation_ids": [
+          "guideline_6"
+        ],
+        "context": "Guideline PDF page 6. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+      },
+      "home_services": {
+        "type": "Predicate",
+        "id": "home_services",
+        "question": "Are the indicated home support services arranged for this plan?",
+        "label": "Home services arranged",
+        "doc": null,
+        "citation_ids": [
+          "guideline_5"
+        ],
+        "context": "Guideline PDF page 5. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+      },
+      "facility_ready": {
+        "type": "Predicate",
+        "id": "facility_ready",
+        "question": "Has an appropriate recovery facility accepted the support plan?",
+        "label": "Facility acceptance confirmed",
+        "doc": null,
+        "citation_ids": [
+          "guideline_6"
+        ],
+        "context": "Guideline PDF page 6. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+      },
+      "facility_plan": {
+        "type": "Predicate",
+        "id": "facility_plan",
+        "question": "Has the receiving team agreed to the required mobility and wound-care support plan?",
+        "label": "Receiving care plan agreed",
+        "doc": null,
+        "citation_ids": [
+          "guideline_6"
+        ],
+        "context": "Guideline PDF page 6. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+      },
+      "transport": {
+        "type": "Predicate",
+        "id": "transport",
+        "question": "Is suitable transport arranged for the planned transition once medically cleared?",
+        "label": "Transport arranged",
+        "doc": null,
+        "citation_ids": [
+          "guideline_6"
+        ],
+        "context": "Guideline PDF page 6. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+      },
+      "fracture_requested": {
+        "type": "Predicate",
+        "id": "fracture_requested",
+        "question": "Does the clinical record request or plan treatment for a fracture?",
+        "label": "Fracture indication review requested?",
+        "doc": null,
+        "citation_ids": null,
+        "context": "Use documented requests, treatment plans, or referrals in the clinical record. An incidental finding alone does not establish a requested service. Unrequested reviews are skipped without a clinical finding."
+      },
+      "degeneration_requested": {
+        "type": "Predicate",
+        "id": "degeneration_requested",
+        "question": "Does the clinical record request or plan treatment specifically for degenerative joint disease?",
+        "label": "Degenerative-joint review requested?",
+        "doc": null,
+        "citation_ids": null,
+        "context": "Use documented requests, treatment plans, or referrals in the clinical record. An incidental finding alone does not establish a requested service. Unrequested reviews are skipped without a clinical finding."
+      },
+      "rehabilitation_requested": {
+        "type": "Predicate",
+        "id": "rehabilitation_requested",
+        "question": "Does the clinical record request or plan post-operative rehabilitation, including physical or occupational therapy?",
+        "label": "Post-op rehabilitation requested?",
+        "doc": null,
+        "citation_ids": null,
+        "context": "Use documented requests, treatment plans, or referrals in the clinical record. An incidental finding alone does not establish a requested service. Unrequested reviews are skipped without a clinical finding."
+      },
+      "support_requested": {
+        "type": "Predicate",
+        "id": "support_requested",
+        "question": "Does the clinical record request or plan recovery support, including discharge planning, home services, or facility placement?",
+        "label": "Recovery-support planning requested?",
+        "doc": null,
+        "citation_ids": null,
+        "context": "Use documented requests, treatment plans, or referrals in the clinical record. An incidental finding alone does not establish a requested service. Unrequested reviews are skipped without a clinical finding."
+      }
+    },
+    "aggregators": {
+      "A1": {
+        "type": "Aggregator",
+        "id": "A1",
+        "name": "fracture_criteria",
+        "truth_value": true,
+        "strategy": {
+          "type": "AtLeastStrategy",
+          "count": 1
+        },
+        "argument_ids": [
+          "fracture",
+          "nonunion",
+          "complex_fracture"
+        ],
+        "label": "Fracture indication",
+        "doc": "Supplied guideline criteria.",
+        "citation_ids": null
+      },
+      "A2": {
+        "type": "Aggregator",
+        "id": "A2",
+        "name": "degeneration_criteria",
+        "truth_value": true,
+        "strategy": {
+          "type": "AllStrategy"
+        },
+        "argument_ids": [
+          "advanced_degeneration",
+          "refractory_symptoms"
+        ],
+        "label": "Degenerative changes and symptoms",
+        "doc": "Supplied guideline criteria.",
+        "citation_ids": null
+      },
+      "A3": {
+        "type": "Aggregator",
+        "id": "A3",
+        "name": "alternatives",
+        "truth_value": true,
+        "strategy": {
+          "type": "AllStrategy"
+        },
+        "argument_ids": [
+          "injections_failed",
+          "rehab_failed"
+        ],
+        "label": "Both alternative therapies failed",
+        "doc": "Supplied guideline criteria.",
+        "citation_ids": null
+      },
+      "A4": {
+        "type": "Aggregator",
+        "id": "A4",
+        "name": "rehab_need",
+        "truth_value": true,
+        "strategy": {
+          "type": "AtLeastStrategy",
+          "count": 1
+        },
+        "argument_ids": [
+          "limited_rom",
+          "mobility_loss"
+        ],
+        "label": "Functional need · either",
+        "doc": "Synthetic service-planning rule, not a guideline authorization standard.",
+        "citation_ids": null
+      },
+      "A5": {
+        "type": "Aggregator",
+        "id": "A5",
+        "name": "rehab_plan",
+        "truth_value": true,
+        "strategy": {
+          "type": "AllStrategy"
+        },
+        "argument_ids": [
+          "hemodynamics",
+          "rehab_cleared",
+          "therapy_prescribed",
+          "participation"
+        ],
+        "label": "Safe rehabilitation plan · synthetic",
+        "doc": "Synthetic service-planning rule, not a guideline authorization standard.",
+        "citation_ids": null
+      },
+      "A6": {
+        "type": "Aggregator",
+        "id": "A6",
+        "name": "support_need",
+        "truth_value": true,
+        "strategy": {
+          "type": "AtLeastStrategy",
+          "count": 1
+        },
+        "argument_ids": [
+          "needs_mobility_help",
+          "needs_dressing_help"
+        ],
+        "label": "Support need · either",
+        "doc": "Synthetic service-planning rule, not a guideline authorization standard.",
+        "citation_ids": null
+      },
+      "A7": {
+        "type": "Aggregator",
+        "id": "A7",
+        "name": "home_criteria",
+        "truth_value": true,
+        "strategy": {
+          "type": "AllStrategy"
+        },
+        "argument_ids": [
+          "A6",
+          "home_ready",
+          "care_tasks",
+          "home_services"
+        ],
+        "label": "Home support plan · synthetic",
+        "doc": "Synthetic service-planning rule, not a guideline authorization standard.",
+        "citation_ids": null
+      },
+      "A8": {
+        "type": "Aggregator",
+        "id": "A8",
+        "name": "facility_criteria",
+        "truth_value": true,
+        "strategy": {
+          "type": "AllStrategy"
+        },
+        "argument_ids": [
+          "A6",
+          "facility_ready",
+          "facility_plan",
+          "transport"
+        ],
+        "label": "Facility support plan · synthetic",
+        "doc": "Synthetic service-planning rule, not a guideline authorization standard.",
+        "citation_ids": null
+      }
+    },
+    "outcomes": {
+      "approved": {
+        "type": "Outcome",
+        "id": "approved",
+        "description": "Approved",
+        "label": null,
+        "doc": null,
+        "citation_ids": null
+      },
+      "needs_review": {
+        "type": "Outcome",
+        "id": "needs_review",
+        "description": "Needs review",
+        "label": null,
+        "doc": null,
+        "citation_ids": null
+      }
+    },
+    "nodes": {
+      "Root": {
+        "id": "Root",
+        "item_id": "Root"
+      },
+      "SN_1": {
+        "id": "SN_1",
+        "item_id": "approved"
+      },
+      "SN_2": {
+        "id": "SN_2",
+        "item_id": "fracture_requested"
+      },
+      "SN_3": {
+        "id": "SN_3",
+        "item_id": "A1"
+      },
+      "SN_4": {
+        "id": "SN_4",
+        "item_id": "needs_review"
+      },
+      "SN_5": {
+        "id": "SN_5",
+        "item_id": "degeneration_requested"
+      },
+      "SN_6": {
+        "id": "SN_6",
+        "item_id": "A2"
+      },
+      "SN_7": {
+        "id": "SN_7",
+        "item_id": "A3"
+      },
+      "SN_8": {
+        "id": "SN_8",
+        "item_id": "rehabilitation_requested"
+      },
+      "SN_9": {
+        "id": "SN_9",
+        "item_id": "A4"
+      },
+      "SN_10": {
+        "id": "SN_10",
+        "item_id": "A5"
+      },
+      "SN_11": {
+        "id": "SN_11",
+        "item_id": "support_requested"
+      },
+      "SN_12": {
+        "id": "SN_12",
+        "item_id": "A7"
+      },
+      "SN_13": {
+        "id": "SN_13",
+        "item_id": "A8"
+      }
+    },
+    "edges": {
+      "E_Root->SN_2": {
+        "source": "Root",
+        "target": "SN_2",
+        "condition": true
+      },
+      "E_SN_2->SN_3": {
+        "source": "SN_2",
+        "target": "SN_3",
+        "condition": true
+      },
+      "E_SN_3->SN_1": {
+        "source": "SN_3",
+        "target": "SN_1",
+        "condition": true
+      },
+      "E_SN_3->SN_4:false": {
+        "source": "SN_3",
+        "target": "SN_4",
+        "condition": false
+      },
+      "E_Root->SN_5": {
+        "source": "Root",
+        "target": "SN_5",
+        "condition": true
+      },
+      "E_SN_5->SN_6": {
+        "source": "SN_5",
+        "target": "SN_6",
+        "condition": true
+      },
+      "E_SN_6->SN_7": {
+        "source": "SN_6",
+        "target": "SN_7",
+        "condition": true
+      },
+      "E_SN_7->SN_1": {
+        "source": "SN_7",
+        "target": "SN_1",
+        "condition": true
+      },
+      "E_SN_6->SN_4:false": {
+        "source": "SN_6",
+        "target": "SN_4",
+        "condition": false
+      },
+      "E_SN_7->SN_4:false": {
+        "source": "SN_7",
+        "target": "SN_4",
+        "condition": false
+      },
+      "E_Root->SN_8": {
+        "source": "Root",
+        "target": "SN_8",
+        "condition": true
+      },
+      "E_SN_8->SN_9": {
+        "source": "SN_8",
+        "target": "SN_9",
+        "condition": true
+      },
+      "E_SN_9->SN_10": {
+        "source": "SN_9",
+        "target": "SN_10",
+        "condition": true
+      },
+      "E_SN_10->SN_1": {
+        "source": "SN_10",
+        "target": "SN_1",
+        "condition": true
+      },
+      "E_SN_9->SN_4:false": {
+        "source": "SN_9",
+        "target": "SN_4",
+        "condition": false
+      },
+      "E_SN_10->SN_4:false": {
+        "source": "SN_10",
+        "target": "SN_4",
+        "condition": false
+      },
+      "E_Root->SN_11": {
+        "source": "Root",
+        "target": "SN_11",
+        "condition": true
+      },
+      "E_SN_11->SN_12": {
+        "source": "SN_11",
+        "target": "SN_12",
+        "condition": true
+      },
+      "E_SN_12->SN_1": {
+        "source": "SN_12",
+        "target": "SN_1",
+        "condition": true
+      },
+      "E_SN_12->SN_13:false": {
+        "source": "SN_12",
+        "target": "SN_13",
+        "condition": false
+      },
+      "E_SN_13->SN_1": {
+        "source": "SN_13",
+        "target": "SN_1",
+        "condition": true
+      },
+      "E_SN_13->SN_4:false": {
+        "source": "SN_13",
+        "target": "SN_4",
+        "condition": false
+      }
+    },
+    "policy_context": "A synthetic MSK policy with four independently gated reviews of one clinical snapshot. Determine which services apply from documented requests, treatment plans, and referrals in the clinical record; do not assume all four are requested. Fracture and degenerative-joint indication criteria follow the supplied guideline. Rehabilitation and recovery-support planning use explicitly synthetic rules inspired by its recovery sections. Branches share Approved and Needs review outcomes. Both may be reached for different requested services; select a reasoning trace to identify the service. There is no combined discharge decision. Degenerative and rehabilitation checks advance through consecutive Yes stages. Home support can fall back to a facility plan. A completed support plan does not authorize discharge. Batches reveal evidence about the same snapshot; answers never change.",
+    "citations": {
+      "guideline_1": {
+        "source_ref": "MSK Procedure Synthetic Guidelines (1).pdf, physical PDF page 1",
+        "filename": "MSK Procedure Synthetic Guidelines (1).pdf",
+        "regions": null,
+        "excerpt": null
+      },
+      "guideline_2": {
+        "source_ref": "MSK Procedure Synthetic Guidelines (1).pdf, physical PDF page 2",
+        "filename": "MSK Procedure Synthetic Guidelines (1).pdf",
+        "regions": null,
+        "excerpt": null
+      },
+      "guideline_4": {
+        "source_ref": "MSK Procedure Synthetic Guidelines (1).pdf, physical PDF page 4",
+        "filename": "MSK Procedure Synthetic Guidelines (1).pdf",
+        "regions": null,
+        "excerpt": null
+      },
+      "guideline_5": {
+        "source_ref": "MSK Procedure Synthetic Guidelines (1).pdf, physical PDF page 5",
+        "filename": "MSK Procedure Synthetic Guidelines (1).pdf",
+        "regions": null,
+        "excerpt": null
+      },
+      "guideline_6": {
+        "source_ref": "MSK Procedure Synthetic Guidelines (1).pdf, physical PDF page 6",
+        "filename": "MSK Procedure Synthetic Guidelines (1).pdf",
+        "regions": null,
+        "excerpt": null
+      }
+    }
+  },
+  "initial_answers": {},
+  "batches": [
+    {
+      "degeneration_requested": {
+        "is_met": true,
+        "reasoning": "SYNTHETIC REQUEST: The demo bundle separately requests degenerative-joint review."
+      },
+      "fracture_requested": {
+        "is_met": true,
+        "reasoning": "SYNTHETIC REQUEST: The demo bundle separately requests fracture indication review."
+      },
+      "rehabilitation_requested": {
+        "is_met": true,
+        "reasoning": "SYNTHETIC REQUEST: The demo bundle separately requests post-op rehabilitation."
+      },
+      "support_requested": {
+        "is_met": true,
+        "reasoning": "SYNTHETIC REQUEST: The demo bundle separately requests recovery-support planning."
+      }
+    },
+    {
+      "advanced_degeneration": {
+        "is_met": false,
+        "reasoning": "The radiographic report describes moderate, not advanced, degenerative changes."
+      },
+      "fracture": {
+        "is_met": true,
+        "reasoning": "Radiology, orthopedics, and the operative report describe a displaced subcapital femoral-neck fracture."
+      },
+      "limited_rom": {
+        "is_met": true,
+        "reasoning": "Orthopedics documents limited range of motion due to pain."
+      },
+      "needs_mobility_help": {
+        "is_met": true,
+        "reasoning": "SYNTHETIC ASSUMPTION: The fictional support assessment documents assistance needs for mobility."
+      }
+    },
+    {
+      "hemodynamics": {
+        "is_met": true,
+        "reasoning": "Stable transfer from PACU and stable ward vital signs are documented after the earlier hypotension was treated."
+      },
+      "home_ready": {
+        "is_met": false,
+        "reasoning": "SYNTHETIC ASSUMPTION: The fictional home assessment identifies unresolved access and assistance needs."
+      }
+    },
+    {
+      "facility_ready": {
+        "is_met": true,
+        "reasoning": "SYNTHETIC ASSUMPTION: A recovery facility has accepted the fictional support plan, subject to later medical clearance for transfer."
+      },
+      "rehab_cleared": {
+        "is_met": true,
+        "reasoning": "SYNTHETIC ASSUMPTION: The fictional treating-team assessment clears supervised mobilization with precautions. This is not independent ambulation or discharge clearance."
+      }
+    },
+    {
+      "facility_plan": {
+        "is_met": true,
+        "reasoning": "SYNTHETIC ASSUMPTION: The fictional receiving team has agreed to the mobility and wound-care support plan."
+      },
+      "therapy_prescribed": {
+        "is_met": true,
+        "reasoning": "SYNTHETIC ASSUMPTION: The fictional packet includes a supervised therapy plan with transfer goals and hip precautions."
+      }
+    },
+    {
+      "participation": {
+        "is_met": true,
+        "reasoning": "SYNTHETIC ASSUMPTION: The fictional nursing assessment documents ability to participate with assistance."
+      },
+      "transport": {
+        "is_met": true,
+        "reasoning": "SYNTHETIC ASSUMPTION: Transport is arranged in the fictional support plan, conditional on medical clearance."
+      }
+    }
+  ]
+}

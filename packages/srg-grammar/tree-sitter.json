@@ -1,0 +1,13 @@
+{
+  "grammars": [
+    {
+      "name": "srg",
+      "scope": "source.srg",
+      "path": ".",
+      "file-types": ["srg"]
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0"
+  }
+}

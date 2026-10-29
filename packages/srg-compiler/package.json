@@ -1,0 +1,53 @@
+{
+  "name": "@anteriorai/srg-compiler",
+  "version": "0.6.1",
+  "private": false,
+  "license": "Apache-2.0",
+  "description": "SRG v2 compiler - compiles .srg files to executable JSON",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && node --test test/compiler.test.js test/cli.test.js",
+    "dev": "tsc --watch",
+    "compile": "node dist/cli.js"
+  },
+  "bin": {
+    "srg-compile": "dist/cli.js"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "keywords": [
+    "srg",
+    "compiler",
+    "symbolic-reasoning"
+  ],
+  "dependencies": {
+    "@anteriorai/srg-parser": "^0.6.1",
+    "@anteriorai/srg-types": "^0.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.19.27",
+    "typescript": "5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anteriorai/symbolic-reasoning.git",
+    "directory": "packages/srg-compiler"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

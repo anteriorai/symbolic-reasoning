@@ -1,0 +1,18 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.1.2/schema.json",
+  "changelog": "@changesets/changelog-git",
+  "commit": false,
+  "fixed": [
+    [
+      "@anteriorai/srg-compiler",
+      "@anteriorai/srg-parser",
+      "@anteriorai/srg-types",
+      "@anteriorai/srg-grammar"
+    ]
+  ],
+  "linked": [],
+  "access": "public",
+  "baseBranch": "master",
+  "updateInternalDependencies": "patch",
+  "ignore": []
+}

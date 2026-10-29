@@ -1,0 +1,126 @@
+==================
+Simple outcome
+==================
+
+outcome approved: "Request approved"
+
+---
+
+(source_file
+  (outcome_definition
+    id: (identifier)
+    description: (string)))
+
+==================
+Outcome with metadata
+==================
+
+outcome approved: "Approved"
+  metadata: {
+    notification_required: true,
+    level: 1
+  }
+
+---
+
+(source_file
+  (outcome_definition
+    id: (identifier)
+    description: (string)
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (boolean)))
+        (property
+          key: (identifier)
+          value: (property_value
+            (number)))))))
+
+==================
+Multiple outcomes
+==================
+
+outcome approved: "Approved"
+outcome denied: "Denied"
+
+---
+
+(source_file
+  (outcome_definition
+    id: (identifier)
+    description: (string))
+  (outcome_definition
+    id: (identifier)
+    description: (string)))
+
+==================
+Outcome with citation reference
+==================
+
+outcome approved: "Approved"
+  cite: approval_policy
+
+---
+
+(source_file
+  (outcome_definition
+    id: (identifier)
+    description: (string)
+    (cite_property
+      citation: (identifier))))
+
+==================
+Outcome with multiple properties
+==================
+
+outcome approved: "Approved"
+  label: "Fully Approved"
+  doc: "Patient meets all requirements"
+  cite: [approval_policy, state_regulation]
+  metadata: {
+    notification_required: true,
+    level: 1
+  }
+
+---
+
+(source_file
+  (outcome_definition
+    id: (identifier)
+    description: (string)
+    (label_property
+      value: (string))
+    (doc_property
+      value: (string))
+    (cite_property
+      (citation_array
+        citation: (identifier)
+        citation: (identifier)))
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (boolean)))
+        (property
+          key: (identifier)
+          value: (property_value
+            (number)))))))
+
+==================
+Outcome with invalid context property (should error)
+==================
+
+outcome approved: "Approved"
+  context: "Invalid context"
+
+---
+
+(source_file
+  (outcome_definition
+    id: (identifier)
+    (ERROR
+      (string))
+    description: (string)))
