@@ -1459,7 +1459,7 @@ describe('Invalid AST input', () => {
       corrupt(ast);
       const error = (() => { try { compile(ast); } catch (e) { return e; } })();
       assert.ok(error instanceof CompilerError, String(error));
-      assert.match(error.message, new RegExp(message.replace(/[()]/g, '\\$&')));
+      assert.ok(error.message.includes(message), error.message);
       assert.deepStrictEqual(error.loc, expected);
     });
   }
