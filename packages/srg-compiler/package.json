@@ -1,6 +1,6 @@
 {
   "name": "@anteriorai/srg-compiler",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "private": false,
   "license": "Apache-2.0",
   "description": "SRG v2 compiler - compiles .srg files to executable JSON",
@@ -35,8 +35,8 @@
     "symbolic-reasoning"
   ],
   "dependencies": {
-    "@anteriorai/srg-parser": "^0.6.1",
-    "@anteriorai/srg-types": "^0.6.1"
+    "@anteriorai/srg-parser": "^0.7.0",
+    "@anteriorai/srg-types": "^0.7.0"
   },
   "devDependencies": {
     "@types/node": "20.19.27",
