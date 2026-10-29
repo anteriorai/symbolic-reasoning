@@ -38,5 +38,5 @@ The SRG grammar supports:
 - **Paths**: `check => approved` follows true; `check !=> review` follows false.
 - **Comments**: `# comment`
 
-See the [language reference](https://github.com/anteriorai/symbolic-reasoning/blob/master/docs/SRG-QUICK-REFERENCE.md) for syntax and semantics,
+See [The SRG language](https://github.com/anteriorai/symbolic-reasoning/blob/master/docs/srg-language.md) for syntax and semantics,
 or [grammar.js](https://github.com/anteriorai/symbolic-reasoning/blob/master/packages/srg-grammar/grammar.js) for the complete grammar.

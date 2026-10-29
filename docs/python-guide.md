@@ -1,6 +1,6 @@
 # Python Guide
 
-How to build, solve and inspect policies with the `symbolic_reasoning` package. For the `.srg` language, see the [quick reference](SRG-QUICK-REFERENCE.md); for how evaluation works, see the [authoring guide](SRG-AUTHORING-GUIDE.md).
+How to build, solve and inspect policies with the `symbolic_reasoning` package. For the `.srg` language and how evaluation works, see [The SRG language](srg-language.md).
 
 ```python
 import symbolic_reasoning as sr
@@ -90,7 +90,7 @@ Each path lists the answered predicates (`predicate_id`, `is_met`) along it; loo
 
 Both functions raise `ExecutionNotResolvedError` until the graph is decided, rather than return a partial result that looks final. `sr.is_resolved(execution)` says whether it is; `next_request()` returns what to ask next. A solve driven to completion is always resolved, and resolved does not mean every predicate is answered: evaluation short-circuits.
 
-Several paths can reach the same outcome, and a policy can reach several outcomes or none. `outcomes()` returns `[]` when no path completes; `all_paths` shows where evaluation stopped. See [Designing outcomes](SRG-AUTHORING-GUIDE.md#designing-outcomes).
+Several paths can reach the same outcome, and a policy can reach several outcomes or none. `outcomes()` returns `[]` when no path completes; `all_paths` shows where evaluation stopped. See [Designing outcomes](srg-language.md#designing-outcomes).
 
 ## Record and replay
 
