@@ -1,0 +1,407 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SRG",
+  "description": "Symbolic Reasoning Graph structure, defining predicates, aggregators, outcomes, nodes, and edges",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["predicates", "aggregators", "outcomes", "nodes", "edges"],
+  "properties": {
+    "predicates": {
+      "type": "object",
+      "description": "Dictionary of predicates keyed by predicate ID",
+      "additionalProperties": {
+        "$ref": "#/definitions/Predicate"
+      }
+    },
+    "aggregators": {
+      "type": "object",
+      "description": "Dictionary of aggregators keyed by aggregator ID",
+      "additionalProperties": {
+        "$ref": "#/definitions/Aggregator"
+      }
+    },
+    "outcomes": {
+      "type": "object",
+      "description": "Dictionary of outcomes keyed by outcome ID",
+      "additionalProperties": {
+        "$ref": "#/definitions/Outcome"
+      }
+    },
+    "nodes": {
+      "type": "object",
+      "description": "Dictionary of graph nodes keyed by node ID. MUST contain a Root node with id='Root' and item_id='Root'. Validated programmatically.",
+      "additionalProperties": {
+        "$ref": "#/definitions/Node"
+      }
+    },
+    "edges": {
+      "type": "object",
+      "description": "Dictionary of graph edges keyed by edge ID",
+      "additionalProperties": {
+        "$ref": "#/definitions/Edge"
+      }
+    },
+    "policy_context": {
+      "type": ["string", "null"],
+      "description": "Optional policy context or general guidance applicable to the entire graph"
+    },
+    "citations": {
+      "type": "object",
+      "description": "Dictionary of citation definitions keyed by citation ID",
+      "additionalProperties": {
+        "$ref": "#/definitions/Citation"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Root": {
+      "type": "object",
+      "description": "The root node representing the entry point of the graph",
+      "required": ["type", "id"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "Root",
+          "default": "Root",
+          "description": "Discriminator field for root type"
+        },
+        "id": {
+          "type": "string",
+          "const": "Root",
+          "default": "Root",
+          "description": "Fixed identifier for the root"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Predicate": {
+      "type": "object",
+      "description": "A predicate represents a question or condition to be evaluated",
+      "required": ["type", "id", "question"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "Predicate",
+          "default": "Predicate",
+          "description": "Discriminator field for symbol type"
+        },
+      "id": {
+        "type": "string",
+        "description": "Unique identifier for the predicate (e.g., 'P1', 'P2', or human-readable like 'is_adult')",
+        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+      },
+        "question": {
+          "type": "string",
+          "description": "The question or condition text to be evaluated"
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable label for the predicate"
+        },
+        "doc": {
+          "type": "string",
+          "description": "Human-readable documentation providing additional details about the predicate"
+        },
+        "citation_ids": {
+          "type": "array",
+          "description": "Array of citation IDs referencing source documents or policies",
+          "items": {
+            "type": "string"
+          }
+        },
+        "context": {
+          "type": ["string", "null"],
+          "description": "Optional additional context for evaluating the predicate"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Author-defined annotations; not used during evaluation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Outcome": {
+      "type": "object",
+      "description": "An outcome represents a possible result or decision",
+      "required": ["type", "id", "description"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "Outcome",
+          "default": "Outcome",
+          "description": "Discriminator field for symbol type"
+        },
+      "id": {
+        "type": "string",
+        "description": "Unique identifier for the outcome (e.g., 'O1', 'O2', or human-readable like 'approved')",
+        "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+      },
+        "description": {
+          "type": "string",
+          "description": "Description of the outcome"
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable label for the outcome"
+        },
+        "doc": {
+          "type": "string",
+          "description": "Human-readable documentation providing additional details about the outcome"
+        },
+        "citation_ids": {
+          "type": "array",
+          "description": "Array of citation IDs referencing source documents or policies",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Author-defined annotations; not used during evaluation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Aggregator": {
+      "type": "object",
+      "description": "An aggregator combines multiple predicates or other aggregators using a logical strategy",
+      "required": ["type", "id", "name", "truth_value", "strategy", "argument_ids"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "Aggregator",
+          "default": "Aggregator",
+          "description": "Discriminator field for symbol type"
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the aggregator (e.g., 'A1', 'A2')",
+          "pattern": "^A\\d+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name for the aggregator (empty string for unnamed aggregators)"
+        },
+        "truth_value": {
+          "type": "boolean",
+          "description": "Whether the aggregator uses positive logic (true) or negation (false)"
+        },
+        "strategy": {
+          "$ref": "#/definitions/Strategy",
+          "description": "The aggregation strategy to apply"
+        },
+        "argument_ids": {
+          "type": "array",
+          "description": "IDs of child predicates or aggregators",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable label for the aggregator"
+        },
+        "doc": {
+          "type": "string",
+          "description": "Human-readable documentation providing additional details about the aggregator"
+        },
+        "citation_ids": {
+          "type": "array",
+          "description": "Array of citation IDs referencing source documents or policies",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Author-defined annotations; not used during evaluation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Strategy": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/AllStrategy"
+        },
+        {
+          "$ref": "#/definitions/AtLeastStrategy"
+        },
+        {
+          "$ref": "#/definitions/AtMostStrategy"
+        },
+        {
+          "$ref": "#/definitions/ExactlyStrategy"
+        }
+      ],
+      "discriminator": {
+        "propertyName": "type"
+      },
+      "description": "Strategy for aggregating boolean evaluations"
+    },
+    "AllStrategy": {
+      "type": "object",
+      "description": "All arguments must evaluate to true",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "AllStrategy",
+          "default": "AllStrategy"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AtLeastStrategy": {
+      "type": "object",
+      "description": "At least N arguments must evaluate to true",
+      "required": ["type", "count"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "AtLeastStrategy",
+          "default": "AtLeastStrategy"
+        },
+        "count": {
+          "type": "integer",
+          "description": "Minimum number of arguments that must be true",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "AtMostStrategy": {
+      "type": "object",
+      "description": "At most N arguments must evaluate to true",
+      "required": ["type", "count"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "AtMostStrategy",
+          "default": "AtMostStrategy"
+        },
+        "count": {
+          "type": "integer",
+          "description": "Maximum number of arguments that can be true",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "ExactlyStrategy": {
+      "type": "object",
+      "description": "Exactly N arguments must evaluate to true",
+      "required": ["type", "count"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "ExactlyStrategy",
+          "default": "ExactlyStrategy"
+        },
+        "count": {
+          "type": "integer",
+          "description": "Exact number of arguments that must be true",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "Node": {
+      "type": "object",
+      "description": "A node in the graph that references a symbol (predicate, aggregator, or outcome)",
+      "required": ["id", "item_id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the node (e.g., 'SN_1', 'SN_2', 'Root')",
+          "pattern": "^(SN(_\\d+|\\d+)|Root)$"
+        },
+        "item_id": {
+          "type": "string",
+          "description": "ID of the predicate, aggregator or outcome this node represents; only the node with id 'Root' has item_id 'Root'"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Edge": {
+      "type": "object",
+      "description": "A directed edge connecting two nodes in the graph",
+      "required": ["source", "target", "condition"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "ID of the source node"
+        },
+        "target": {
+          "type": "string",
+          "description": "ID of the target node"
+        },
+        "condition": {
+          "type": "boolean",
+          "description": "Edge condition"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Citation": {
+      "type": "object",
+      "description": "A citation references a source document or policy with optional bounding boxes and excerpts",
+      "required": ["source_ref"],
+      "properties": {
+        "source_ref": {
+          "type": "string",
+          "description": "Reference to the source document (e.g., SHA256 hash, file path, or URL)"
+        },
+        "filename": {
+          "type": "string",
+          "description": "Optional filename of the source document"
+        },
+        "regions": {
+          "type": "array",
+          "description": "Optional array of regions (bounding boxes) within the document",
+          "items": {
+            "$ref": "#/definitions/CitationRegion"
+          }
+        },
+        "excerpt": {
+          "type": "string",
+          "description": "Optional excerpt or quote from the source document"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Author-defined annotations; not used during evaluation"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CitationRegion": {
+      "type": "object",
+      "description": "A region within a document page defined by a bounding box",
+      "required": ["page", "box"],
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page number (0-indexed)",
+          "minimum": 0
+        },
+        "box": {
+          "type": "array",
+          "description": "Bounding box defined by 4 vertices: [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 4,
+          "maxItems": 4
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

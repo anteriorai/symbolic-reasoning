@@ -1,0 +1,158 @@
+[project]
+name = "symbolic-reasoning"
+version = "0.6.1"
+description = "A Python library for structured reasoning over policies and knowledge to produce deterministic, auditable and explainable outcomes"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+authors = [
+    {name = "Anterior, Inc.", email = "tech@anterior.com"},
+]
+keywords = ["reasoning", "policies", "symbolic", "ai", "decision-making"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pydantic>=2.10",
+]
+
+[project.urls]
+Homepage = "https://github.com/anteriorai/symbolic-reasoning#readme"
+Repository = "https://github.com/anteriorai/symbolic-reasoning"
+Issues = "https://github.com/anteriorai/symbolic-reasoning/issues"
+
+[project.optional-dependencies]
+mcp = [
+    "mcp>=2.2,<3",
+]
+
+[build-system]
+requires = ["setuptools>=77.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+symbolic_reasoning = ["viewer_assets/*.html", "viewer_assets/*.css", "viewer_assets/*.js", "viewer_assets/vendor/*"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-asyncio>=0.21.0",
+    "ruff>=0.1.0",
+    "ty>=0.0.85",
+    "datamodel-code-generator==0.87.0",
+]
+
+# Ruff configuration for linting and formatting
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+extend-exclude = [
+    "*.ipynb",
+    "src/symbolic_reasoning/gen",  # Generated code - don't lint or format
+]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+    "ARG001", # unused-function-args
+    "SIM", # flake8-simplify
+    "PIE", # flake8-pie
+    "A",  # flake8-builtins
+    "ANN", # flake8-annotations
+    "C90", # mccabe
+    "ICN", # flake8-import-conventions
+    "G",  # flake8-logging-format
+    "INP", # flake8-no-pep420
+    "PTH", # flake8-use-pathlib
+    "ERA", # eradicate
+    "PD",  # pandas-vet
+    "PGH", # pygrep-hooks
+    "PL",  # pylint
+    "TRY", # tryceratops
+    "FLY", # flynt
+    "NPY", # numpy
+    "AIR", # airflow
+    "PERF", # perflint
+    "FURB", # refurb
+    "RUF", # ruff-specific rules
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "W191",  # indentation contains tabs
+    "PLR0913", # too many arguments
+    "PLR0912", # too many branches
+    "PLR0915", # too many statements
+    "PLR0911", # too many return statements
+    "PLR2004", # magic value used in comparison
+    "TRY003", # avoid specifying long messages outside exception class
+    "COM812", # trailing comma missing (conflicts with formatter)
+    "ANN401", # typing.Any in annotations
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["PLR2004", "S101", "TID252"]
+"examples/*" = ["INP001"]  # standalone scripts, not packages
+
+[tool.ruff.lint.isort]
+known-first-party = ["symbolic_reasoning"]
+
+[tool.ruff.lint.pylint]
+max-args = 10
+
+[tool.ruff.lint.flake8-builtins]
+# Graph symbols are keyed by `id`; builder methods take it by that name.
+builtins-ignorelist = ["id"]
+
+# ty configuration
+[tool.ty.analysis]
+allowed-unresolved-imports = [
+    "typesafe_sdk.**",  # example-only dependency, not installed at the repo root
+]
+
+[tool.ty.rules]
+blanket-ignore-comment = "error"
+dynamic-function-decorator-return = "error"
+redundant-condition-strict = "error"
+unsound-return-statement = "error"
+
+# Pytest configuration
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=src/symbolic_reasoning",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+asyncio_mode = "auto"

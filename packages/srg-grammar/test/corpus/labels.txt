@@ -1,0 +1,326 @@
+==================
+Aggregator with label
+==================
+
+define basic_eligibility: all(is_adult, has_insurance)
+  label: "Basic Eligibility Check"
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    (label_property
+      value: (string))))
+
+==================
+Aggregator without label
+==================
+
+define basic: all(is_adult, has_insurance)
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))))
+
+==================
+Aggregator with label and description
+==================
+
+define complex_check: all(has_prior_auth, meets_criteria)
+  label: "Advanced Medical Review"
+  doc: "Secondary review for complex cases"
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    (label_property
+      value: (string))
+    (doc_property
+      value: (string))))
+
+==================
+Aggregator with all properties
+==================
+
+define complex_check: all(has_prior_auth, meets_criteria)
+  label: "Advanced Medical Review"
+  doc: "Secondary review for complex cases requiring prior authorization"
+  cite: medical_policy_2024
+  metadata: { version: 2, priority: "high" }
+
+---
+
+(source_file
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    (label_property
+      value: (string))
+    (doc_property
+      value: (string))
+    (cite_property
+      citation: (identifier))
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (number)))
+        (property
+          key: (identifier)
+          value: (property_value
+            (string)))))))
+
+==================
+Path with label
+==================
+
+path standard_approval: initial_requirements => approved
+  label: "Standard Approval Pathway"
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    outcome: (identifier)
+    (label_property
+      value: (string))))
+
+==================
+Path without label
+==================
+
+path simple_path: basic_eligibility => approved
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    outcome: (identifier)))
+
+==================
+Path with multiple steps and label
+==================
+
+path complex_flow: root => all(p1, p2) => any(p3, p4) => approved
+  label: "Complex Review Flow"
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    step: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    step: (expression
+      (any_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    outcome: (identifier)
+    (label_property
+      value: (string))))
+
+==================
+Path with all properties
+==================
+
+path deny_no_insurance: not(has_insurance) => denied
+  label: "Missing Insurance"
+  doc: "Immediate denial for patients without active coverage"
+  cite: insurance_requirements
+
+---
+
+(source_file
+  (path
+    id: (identifier)
+    step: (expression
+      (not_expression
+        expr: (expression
+          (reference (identifier)))))
+    outcome: (identifier)
+    (label_property
+      value: (string))
+    (doc_property
+      value: (string))
+    (cite_property
+      citation: (identifier))))
+
+==================
+Predicate with label and description
+==================
+
+predicate is_adult: "Is patient 18 years or older?"
+  label: "Adult Status Check"
+  doc: "Verifies patient meets minimum age requirement"
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (label_property
+      value: (string))
+    (doc_property
+      value: (string))))
+
+==================
+Predicate with all properties
+==================
+
+predicate is_adult: "Is patient 18 years or older?"
+  label: "Adult Status Check"
+  doc: "Verifies patient meets minimum age requirement"
+  cite: age_requirement
+  context: "Patient must be strictly above 18 years old"
+  metadata: { priority: 1 }
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (label_property
+      value: (string))
+    (doc_property
+      value: (string))
+    (cite_property
+      citation: (identifier))
+    (context_property
+      value: (string))
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (number)))))))
+
+==================
+Outcome with label and description
+==================
+
+outcome approved: "Request approved for 30 days"
+  label: "Approved"
+  doc: "Patient meets all requirements and is approved"
+
+---
+
+(source_file
+  (outcome_definition
+    id: (identifier)
+    description: (string)
+    (label_property
+      value: (string))
+    (doc_property
+      value: (string))))
+
+==================
+Complete policy with new label syntax
+==================
+
+predicate is_adult: "Is patient 18?"
+predicate has_insurance: "Has insurance?"
+
+outcome approved: "Approved"
+outcome denied: "Denied"
+
+define basic_eligibility: all(is_adult, has_insurance)
+  label: "Basic Eligibility"
+
+path standard_approval: basic_eligibility => approved
+  label: "Standard Approval"
+path deny_no_insurance: not(has_insurance) => denied
+  label: "Deny No Insurance"
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string))
+  (predicate_definition
+    id: (identifier)
+    question: (string))
+  (outcome_definition
+    id: (identifier)
+    description: (string))
+  (outcome_definition
+    id: (identifier)
+    description: (string))
+  (aggregator_definition
+    id: (identifier)
+    expression: (expression
+      (all_expression
+        (argument_list
+          (expression
+            (reference (identifier)))
+          (expression
+            (reference (identifier))))))
+    (label_property
+      value: (string)))
+  (path
+    id: (identifier)
+    step: (expression
+      (reference (identifier)))
+    outcome: (identifier)
+    (label_property
+      value: (string)))
+  (path
+    id: (identifier)
+    step: (expression
+      (not_expression
+        expr: (expression
+          (reference (identifier)))))
+    outcome: (identifier)
+    (label_property
+      value: (string))))

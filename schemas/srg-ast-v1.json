@@ -1,0 +1,677 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SourceFile",
+  "description": "Root AST node representing a parsed SRG file",
+  "version": "1.0.0",
+  "definitions": {
+    "Position": {
+      "type": "object",
+      "description": "Location in source code",
+      "required": [
+        "line",
+        "column",
+        "offset"
+      ],
+      "properties": {
+        "line": {
+          "type": "integer",
+          "description": "Line number (0-indexed)",
+          "minimum": 0
+        },
+        "column": {
+          "type": "integer",
+          "description": "Column in UTF-16 code units (0-indexed)",
+          "minimum": 0
+        },
+        "offset": {
+          "type": "integer",
+          "description": "Offset in UTF-16 code units from the start of the source",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "Location": {
+      "type": "object",
+      "description": "Source code range",
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "start": {
+          "$ref": "#/definitions/Position"
+        },
+        "end": {
+          "$ref": "#/definitions/Position"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CitationReference": {
+      "type": "object",
+      "description": "Reference to a citation with location for go-to-definition",
+      "required": [
+        "id",
+        "loc"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Citation identifier"
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "OutcomeReference": {
+      "type": "object",
+      "description": "Reference to an outcome with location for go-to-definition",
+      "required": [
+        "id",
+        "loc"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Outcome identifier"
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ReferenceExpression": {
+      "type": "object",
+      "description": "Reference to a predicate or named aggregator",
+      "required": [
+        "type",
+        "id",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "reference"
+        },
+        "id": {
+          "type": "string",
+          "description": "Identifier being referenced"
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AllExpression": {
+      "type": "object",
+      "description": "all(arg1, arg2, ...) expression",
+      "required": [
+        "type",
+        "args",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "all"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Expression"
+          }
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AnyExpression": {
+      "type": "object",
+      "description": "any(arg1, arg2, ...) expression",
+      "required": [
+        "type",
+        "args",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "any"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Expression"
+          }
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "NoneExpression": {
+      "type": "object",
+      "description": "none(arg1, arg2, ...) expression",
+      "required": [
+        "type",
+        "args",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "none"
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Expression"
+          }
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AtLeastExpression": {
+      "type": "object",
+      "description": "atleast(count, arg1, arg2, ...) expression",
+      "required": [
+        "type",
+        "count",
+        "args",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "atleast"
+        },
+        "count": {
+          "type": "integer",
+          "description": "Minimum number of arguments that must be true",
+          "minimum": 1
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Expression"
+          }
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AtMostExpression": {
+      "type": "object",
+      "description": "atmost(count, arg1, arg2, ...) expression",
+      "required": [
+        "type",
+        "count",
+        "args",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "atmost"
+        },
+        "count": {
+          "type": "integer",
+          "description": "Maximum number of arguments that can be true",
+          "minimum": 0
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Expression"
+          }
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ExactlyExpression": {
+      "type": "object",
+      "description": "exactly(count, arg1, arg2, ...) expression",
+      "required": [
+        "type",
+        "count",
+        "args",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "exactly"
+        },
+        "count": {
+          "type": "integer",
+          "description": "Exact number of arguments that must be true",
+          "minimum": 0
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Expression"
+          }
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "NotExpression": {
+      "type": "object",
+      "description": "not(expr) expression",
+      "required": [
+        "type",
+        "expr",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "not"
+        },
+        "expr": {
+          "$ref": "#/definitions/Expression"
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Expression": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/ReferenceExpression"
+        },
+        {
+          "$ref": "#/definitions/AllExpression"
+        },
+        {
+          "$ref": "#/definitions/AnyExpression"
+        },
+        {
+          "$ref": "#/definitions/NoneExpression"
+        },
+        {
+          "$ref": "#/definitions/AtLeastExpression"
+        },
+        {
+          "$ref": "#/definitions/AtMostExpression"
+        },
+        {
+          "$ref": "#/definitions/ExactlyExpression"
+        },
+        {
+          "$ref": "#/definitions/NotExpression"
+        }
+      ],
+      "description": "Expression types in SRG language"
+    },
+    "CitationRegion": {
+      "type": "object",
+      "description": "A region within a document page defined by a bounding box",
+      "required": [
+        "page",
+        "box"
+      ],
+      "properties": {
+        "page": {
+          "type": "integer",
+          "description": "Page number (0-indexed)",
+          "minimum": 0
+        },
+        "box": {
+          "type": "array",
+          "description": "Bounding box defined by 4 vertices: [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 4,
+          "maxItems": 4
+        }
+      },
+      "additionalProperties": false
+    },
+    "PredicateDefinition": {
+      "type": "object",
+      "description": "Predicate definition in AST",
+      "required": [
+        "type",
+        "id",
+        "question",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "predicate_definition"
+        },
+        "id": {
+          "type": "string",
+          "description": "Predicate identifier"
+        },
+        "question": {
+          "type": "string",
+          "description": "The question or condition text"
+        },
+        "label": {
+          "type": "string",
+          "description": "Optional human-readable label"
+        },
+        "doc": {
+          "type": "string",
+          "description": "Optional documentation"
+        },
+        "citation_refs": {
+          "type": "array",
+          "description": "Optional citation references",
+          "items": {
+            "$ref": "#/definitions/CitationReference"
+          }
+        },
+        "context": {
+          "type": "string",
+          "description": "Optional context for evaluation"
+        },
+        "properties": {
+          "type": "object",
+          "description": "Optional custom properties"
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "OutcomeDefinition": {
+      "type": "object",
+      "description": "Outcome definition in AST",
+      "required": [
+        "type",
+        "id",
+        "description",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "outcome_definition"
+        },
+        "id": {
+          "type": "string",
+          "description": "Outcome identifier"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the outcome"
+        },
+        "label": {
+          "type": "string",
+          "description": "Optional human-readable label"
+        },
+        "doc": {
+          "type": "string",
+          "description": "Optional documentation"
+        },
+        "citation_refs": {
+          "type": "array",
+          "description": "Optional citation references",
+          "items": {
+            "$ref": "#/definitions/CitationReference"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "description": "Optional custom properties"
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "AggregatorDefinition": {
+      "type": "object",
+      "description": "Aggregator definition in AST",
+      "required": [
+        "type",
+        "id",
+        "expression",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "aggregator_definition"
+        },
+        "id": {
+          "type": "string",
+          "description": "Aggregator identifier"
+        },
+        "expression": {
+          "$ref": "#/definitions/Expression"
+        },
+        "label": {
+          "type": "string",
+          "description": "Optional human-readable label"
+        },
+        "doc": {
+          "type": "string",
+          "description": "Optional documentation"
+        },
+        "citation_refs": {
+          "type": "array",
+          "description": "Optional citation references",
+          "items": {
+            "$ref": "#/definitions/CitationReference"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "description": "Optional custom properties"
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CitationDefinition": {
+      "type": "object",
+      "description": "Citation definition in AST",
+      "required": [
+        "type",
+        "id",
+        "source_ref",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "citation_definition"
+        },
+        "id": {
+          "type": "string",
+          "description": "Citation identifier"
+        },
+        "source_ref": {
+          "type": "string",
+          "description": "Reference to the source document"
+        },
+        "filename": {
+          "type": "string",
+          "description": "Optional filename"
+        },
+        "regions": {
+          "type": "array",
+          "description": "Optional regions (bounding boxes)",
+          "items": {
+            "$ref": "#/definitions/CitationRegion"
+          }
+        },
+        "excerpt": {
+          "type": "string",
+          "description": "Optional excerpt from source"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Optional additional metadata"
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Path": {
+      "type": "object",
+      "description": "Path definition connecting expressions to outcomes",
+      "required": [
+        "type",
+        "id",
+        "steps",
+        "outcome_ref",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "path"
+        },
+        "id": {
+          "type": "string",
+          "description": "Path identifier"
+        },
+        "label": {
+          "type": "string",
+          "description": "Optional human-readable label"
+        },
+        "doc": {
+          "type": "string",
+          "description": "Optional documentation"
+        },
+        "steps": {
+          "type": "array",
+          "description": "Chain of expressions (e.g., [root, all(p1, p2), any(p3, p4)])",
+          "items": {
+            "$ref": "#/definitions/Expression"
+          }
+        },
+        "outcome_ref": {
+          "$ref": "#/definitions/OutcomeReference"
+        },
+        "citation_refs": {
+          "type": "array",
+          "description": "Optional citation references",
+          "items": {
+            "$ref": "#/definitions/CitationReference"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "description": "Optional custom properties"
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        },
+        "conditions": {
+          "type": "array",
+          "description": "Outgoing edge condition for each step, including the final edge to the outcome. Omitted means all true; when present, length must equal steps.",
+          "minItems": 1,
+          "items": {
+            "type": "boolean"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Definition": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/PolicyContextDefinition"
+        },
+        {
+          "$ref": "#/definitions/PredicateDefinition"
+        },
+        {
+          "$ref": "#/definitions/OutcomeDefinition"
+        },
+        {
+          "$ref": "#/definitions/AggregatorDefinition"
+        },
+        {
+          "$ref": "#/definitions/CitationDefinition"
+        },
+        {
+          "$ref": "#/definitions/Path"
+        }
+      ],
+      "description": "Top-level definition types"
+    },
+    "PolicyContextDefinition": {
+      "type": "object",
+      "description": "Policy-wide guidance declaration, preserved in source order",
+      "required": [
+        "type",
+        "value",
+        "loc"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "policy_context_definition"
+        },
+        "value": {
+          "type": "string"
+        },
+        "loc": {
+          "$ref": "#/definitions/Location"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": [
+    "type",
+    "definitions"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "source_file"
+    },
+    "definitions": {
+      "type": "array",
+      "description": "List of top-level definitions",
+      "items": {
+        "$ref": "#/definitions/Definition"
+      }
+    }
+  },
+  "additionalProperties": false
+}

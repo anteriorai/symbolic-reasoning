@@ -1,0 +1,8 @@
+# Build artifacts (but keep generated src/)
+build/
+*.node
+*.so
+*.dylib
+
+# Tree-sitter
+node_modules/

@@ -1,0 +1,252 @@
+==================
+Simple predicate
+==================
+
+predicate is_adult: "Is patient 18 or older?"
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)))
+
+==================
+Predicate with context
+==================
+
+predicate emergency: "Is this an emergency?"
+  context: "Check ER admission"
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (context_property
+      value: (string))))
+
+==================
+Predicate with metadata
+==================
+
+predicate is_adult: "Is patient 18?"
+  context: "Check DOB"
+  metadata: {
+    priority: 1,
+    enabled: true
+  }
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (context_property
+      value: (string))
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (number)))
+        (property
+          key: (identifier)
+          value: (property_value
+            (boolean)))))))
+
+==================
+Predicate with nested object metadata
+==================
+
+predicate test: "Test"
+  metadata: {
+    config: {
+      text: "Policy text",
+      page: 42
+    }
+  }
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (property_object
+              (property
+                key: (identifier)
+                value: (property_value
+                  (string)))
+              (property
+                key: (identifier)
+                value: (property_value
+                  (number))))))))))
+
+==================
+Predicate with array
+==================
+
+predicate test: "Test"
+  metadata: {
+    tags: ["eligibility", "age", "critical"]
+  }
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (property_array
+              (property_value
+                (string))
+              (property_value
+                (string))
+              (property_value
+                (string)))))))))
+
+==================
+Multiple predicates
+==================
+
+predicate is_adult: "Is patient 18?"
+predicate has_insurance: "Has insurance?"
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string))
+  (predicate_definition
+    id: (identifier)
+    question: (string)))
+
+==================
+Multi-line string
+==================
+
+predicate detailed: """Is the patient eligible
+for the extended care program
+based on their medical history?"""
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)))
+
+==================
+Multi-line string with quotes
+==================
+
+predicate with_quote: """Check if patient meets "high-risk" criteria"""
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)))
+
+==================
+Multi-line string in property
+==================
+
+predicate check: "Simple question"
+  context: """This check requires:
+  - Review of medical records
+  - Verification of insurance
+  - Consultation with primary care"""
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (context_property
+      value: (string))))
+
+==================
+Predicate with citation reference
+==================
+
+predicate is_adult: "Is patient 18?"
+  cite: age_requirement
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (cite_property
+      citation: (identifier))))
+
+==================
+Predicate with multiple citation references
+==================
+
+predicate is_adult: "Is patient 18?"
+  cite: [age_requirement, ada_compliance, state_law]
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (cite_property
+      (citation_array
+        citation: (identifier)
+        citation: (identifier)
+        citation: (identifier)))))
+
+==================
+Predicate with all properties
+==================
+
+predicate is_adult: "Is patient 18?"
+  label: "Adult Status Check"
+  doc: "Verifies patient age requirement"
+  cite: age_requirement
+  context: "Check DOB"
+  metadata: {
+    priority: 1
+  }
+
+---
+
+(source_file
+  (predicate_definition
+    id: (identifier)
+    question: (string)
+    (label_property
+      value: (string))
+    (doc_property
+      value: (string))
+    (cite_property
+      citation: (identifier))
+    (context_property
+      value: (string))
+    (metadata_property
+      (property_block
+        (property
+          key: (identifier)
+          value: (property_value
+            (number)))))))

@@ -1,0 +1,291 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+        with:
+          enable-cache: true
+      - run: uv sync --all-extras
+      - run: uv run ruff check .
+
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+        with:
+          enable-cache: true
+      - run: uv sync --all-extras
+      - run: uv run ty check
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+        with:
+          enable-cache: true
+      - run: uv sync --all-extras
+      - run: uv run pytest -m "not slow" -v
+
+  test-pydantic-floor:
+    name: Test (pydantic 2.10)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+        with:
+          enable-cache: true
+      # No mcp extra: every mcp 2.x requires pydantic>=2.12.
+      - run: uv sync
+      - run: uv pip install "pydantic==2.10.0"
+      - run: uv run --no-sync pytest -m "not slow" -v
+
+  test-examples:
+    name: Example tests (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project:
+          - examples/integrations/jev
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+        with:
+          enable-cache: true
+      - run: uv run --locked python -m unittest discover -v
+
+  test-srg-grammar:
+    name: Test srg-grammar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: package.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Run grammar tests
+        run: cd packages/srg-grammar && npm test
+
+  test-srg-parser:
+    name: Test srg-parser
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: package.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Run parser tests
+        run: cd packages/srg-parser && npm test
+
+  test-srg-compiler:
+    name: Test srg-compiler
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: package.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Build dependencies
+        run: |
+          cd packages/srg-types && npm run build
+          cd ../srg-parser && npm run build
+      - name: Run compiler tests
+        run: cd packages/srg-compiler && npm test
+
+  compiler-parity:
+    name: Compiler parity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: package.json
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: |
+          npm ci
+          uv sync --all-extras
+      - name: Build TypeScript compiler
+        run: npm run build
+      - name: Run differential compiler tests
+        run: SRG_PARITY=1 uv run pytest tests/test_compiler_parity.py -v
+
+  lockfile:
+    name: Lockfile consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: package.json
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+        with:
+          enable-cache: true
+      - name: Verify uv.lock is canonical
+        run: |
+          uv lock --locked
+          if ! git diff --quiet -- uv.lock; then
+            echo "::error::uv.lock is not canonical. Run 'uv lock' locally, review, and commit the updated lockfile."
+            git diff -- uv.lock
+            exit 1
+          fi
+      - name: Verify package-lock.json matches package.json
+        run: |
+          npm ci
+
+  check-generated-files:
+    name: Check Generated Files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0  # Fetch full history for proper diff comparison
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: package.json
+      
+      # Python setup
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+        with:
+          enable-cache: true
+      - run: uv sync --all-extras
+      
+      # Generate Python types
+      - name: Generate Python types
+        run: uv run python schemas/generate.py
+      
+      # Generate TypeScript types
+      - name: Generate TypeScript types
+        run: npm ci && npm run generate
+      
+      # Generate tree-sitter grammar
+      - name: Generate tree-sitter grammar
+        run: npm run generate -w @anteriorai/srg-grammar
+      
+      # Check Python generated files
+      - name: Check Python generated files
+        id: check-python
+        run: |
+          PYTHON_GEN_DIR="src/symbolic_reasoning/gen/py"
+          
+          if git diff --quiet HEAD -- "$PYTHON_GEN_DIR"; then
+            echo "✅ Python generated files match committed files"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Python generated files differ from committed version"
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo ""
+            git diff HEAD -- "$PYTHON_GEN_DIR"
+          fi
+      
+      # Check TypeScript generated files
+      - name: Check TypeScript generated files
+        id: check-typescript
+        run: |
+          CHANGED=false
+          
+          # Check @anteriorai/srg-types generated files
+          if ! git diff --quiet HEAD -- "packages/srg-types/src/generated"; then
+            echo "❌ Generated files in packages/srg-types/src/generated/ differ from committed version"
+            CHANGED=true
+            echo ""
+            git diff HEAD -- "packages/srg-types/src/generated"
+          else
+            echo "✅ Generated files in packages/srg-types/src/generated/ match committed files"
+          fi
+          
+          if ! git diff --quiet HEAD -- "packages/srg-parser/src/generated"; then
+            echo "❌ Generated AST types differ from the committed version"
+            CHANGED=true
+            git diff HEAD -- "packages/srg-parser/src/generated"
+          fi
+
+          if [ "$CHANGED" = true ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      
+      # Check tree-sitter generated files
+      - name: Check tree-sitter generated files
+        id: check-treesitter
+        run: |
+          GRAMMAR_DIR="packages/srg-grammar"
+          
+          if git diff --quiet HEAD -- "$GRAMMAR_DIR/src/" "$GRAMMAR_DIR/tree-sitter-srg.wasm"; then
+            echo "✅ Tree-sitter generated files match committed files"
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Tree-sitter generated files differ from committed version"
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo ""
+            git diff HEAD -- "$GRAMMAR_DIR/src/" "$GRAMMAR_DIR/tree-sitter-srg.wasm"
+          fi
+      
+      # Fail if files differ
+      - name: Fail if files differ
+        if: steps.check-python.outputs.changed == 'true' || steps.check-typescript.outputs.changed == 'true' || steps.check-treesitter.outputs.changed == 'true'
+        run: |
+          if [ "${{ steps.check-python.outputs.changed }}" == "true" ]; then
+            echo "::error::Generated files in src/symbolic_reasoning/gen/py/ differ from their schemas."
+            echo "::error::Please regenerate them using: uv run python schemas/generate.py"
+          fi
+          if [ "${{ steps.check-typescript.outputs.changed }}" == "true" ]; then
+            echo "::error::TypeScript generated files have been manually modified or schema changed."
+            echo "::error::Please regenerate using: npm run generate"
+            echo "::error::This updates packages/srg-types/src/generated/ and packages/srg-parser/src/generated/."
+          fi
+          if [ "${{ steps.check-treesitter.outputs.changed }}" == "true" ]; then
+            echo "::error::Generated files in packages/srg-grammar/ have been manually modified."
+            echo "::error::Please regenerate them using: npm run generate -w @anteriorai/srg-grammar"
+          fi
+          exit 1

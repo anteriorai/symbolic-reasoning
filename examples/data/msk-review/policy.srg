@@ -1,0 +1,194 @@
+policy_context: "A synthetic MSK policy with four independently gated reviews of one clinical snapshot. Determine which services apply from documented requests, treatment plans, and referrals in the clinical record; do not assume all four are requested. Fracture and degenerative-joint indication criteria follow the supplied guideline. Rehabilitation and recovery-support planning use explicitly synthetic rules inspired by its recovery sections. Branches share Approved and Needs review outcomes. Both may be reached for different requested services; select a reasoning trace to identify the service. There is no combined discharge decision. Degenerative and rehabilitation checks advance through consecutive Yes stages. Home support can fall back to a facility plan. A completed support plan does not authorize discharge. Batches reveal evidence about the same snapshot; answers never change."
+
+citation guideline_1: {
+  source_ref: "msk-synthetic-guidelines.pdf, physical PDF page 1"
+  filename: "msk-synthetic-guidelines.pdf"
+}
+
+citation guideline_2: {
+  source_ref: "msk-synthetic-guidelines.pdf, physical PDF page 2"
+  filename: "msk-synthetic-guidelines.pdf"
+}
+
+citation guideline_4: {
+  source_ref: "msk-synthetic-guidelines.pdf, physical PDF page 4"
+  filename: "msk-synthetic-guidelines.pdf"
+}
+
+citation guideline_5: {
+  source_ref: "msk-synthetic-guidelines.pdf, physical PDF page 5"
+  filename: "msk-synthetic-guidelines.pdf"
+}
+
+citation guideline_6: {
+  source_ref: "msk-synthetic-guidelines.pdf, physical PDF page 6"
+  filename: "msk-synthetic-guidelines.pdf"
+}
+
+predicate fracture: "Does imaging confirm an unstable or displaced fracture?"
+  label: "Displaced or unstable fracture"
+  context: "Guideline PDF page 1. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_1]
+
+predicate nonunion: "Is there non-union or malunion despite conservative treatment?"
+  label: "Non-union or malunion"
+  context: "Guideline PDF page 1. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_1]
+
+predicate complex_fracture: "Is an open or complex fracture associated with infection risk or long-term disability?"
+  label: "Qualifying complex fracture"
+  context: "Guideline PDF page 1. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_1]
+
+predicate advanced_degeneration: "Does radiography document advanced degenerative changes?"
+  label: "Advanced degeneration"
+  context: "Guideline PDF page 2. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_2]
+
+predicate refractory_symptoms: "Is severe pain or stiffness unresponsive to conservative measures?"
+  label: "Refractory pain or stiffness"
+  context: "Guideline PDF page 2. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_2]
+
+predicate injections_failed: "Have injection therapies failed?"
+  label: "Injections unsuccessful"
+  context: "Guideline PDF page 2. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_2]
+
+predicate rehab_failed: "Has physical therapy or a weight-loss intervention failed after at least three months?"
+  label: "Three-month alternative trial"
+  context: "Guideline PDF page 2. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_2]
+
+predicate limited_rom: "Is reduced range of motion or strength documented?"
+  label: "Reduced range of motion"
+  context: "Guideline PDF page 1. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_1]
+
+predicate mobility_loss: "Does loss of mobility affect self-care or usual activities?"
+  label: "Mobility affects daily activities"
+  context: "Guideline PDF page 1. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_1]
+
+predicate hemodynamics: "Is the patient hemodynamically stable at this snapshot?"
+  label: "Hemodynamically stable"
+  context: "Guideline PDF page 4. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_4]
+
+predicate rehab_cleared: "Has the treating team cleared the planned supervised mobilization with appropriate precautions?"
+  label: "Mobilization cleared"
+  context: "Guideline PDF page 4. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+  cite: [guideline_4]
+
+predicate therapy_prescribed: "Is a supervised rehabilitation plan prescribed with goals and precautions?"
+  label: "Therapy plan prescribed"
+  context: "Guideline PDF page 5. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+  cite: [guideline_5]
+
+predicate participation: "Does the assessment document ability to participate in the prescribed therapy with assistance?"
+  label: "Can participate with assistance"
+  context: "Guideline PDF page 4. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+  cite: [guideline_4]
+
+predicate needs_mobility_help: "Does the recovery-support assessment identify a need for mobility assistance?"
+  label: "Mobility assistance needed"
+  context: "Guideline PDF page 5. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+  cite: [guideline_5]
+
+predicate needs_dressing_help: "Does the recovery-support assessment identify a need for dressing assistance?"
+  label: "Dressing assistance needed"
+  context: "Guideline PDF page 5. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+  cite: [guideline_5]
+
+predicate home_ready: "Is the home environment assessed as suitable for safe recovery?"
+  label: "Home environment suitable"
+  context: "Guideline PDF page 6. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_6]
+
+predicate care_tasks: "Can the patient or caregivers understand and manage the required recovery care tasks?"
+  label: "Care tasks manageable"
+  context: "Guideline PDF page 6. Criterion paraphrased from the visible guideline page. Missing documentation remains unknown."
+  cite: [guideline_6]
+
+predicate home_services: "Are the indicated home support services arranged for this plan?"
+  label: "Home services arranged"
+  context: "Guideline PDF page 5. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+  cite: [guideline_5]
+
+predicate facility_ready: "Has an appropriate recovery facility accepted the support plan?"
+  label: "Facility acceptance confirmed"
+  context: "Guideline PDF page 6. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+  cite: [guideline_6]
+
+predicate facility_plan: "Has the receiving team agreed to the required mobility and wound-care support plan?"
+  label: "Receiving care plan agreed"
+  context: "Guideline PDF page 6. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+  cite: [guideline_6]
+
+predicate transport: "Is suitable transport arranged for the planned transition once medically cleared?"
+  label: "Transport arranged"
+  context: "Guideline PDF page 6. Synthetic service-planning rule inspired by this section, not a requirement stated by the guideline. Missing documentation remains unknown."
+  cite: [guideline_6]
+
+predicate fracture_requested: "Does the clinical record request or plan treatment for a fracture?"
+  label: "Fracture indication review requested?"
+  context: "Use documented requests, treatment plans, or referrals in the clinical record. An incidental finding alone does not establish a requested service. Unrequested reviews are skipped without a clinical finding."
+
+predicate degeneration_requested: "Does the clinical record request or plan treatment specifically for degenerative joint disease?"
+  label: "Degenerative-joint review requested?"
+  context: "Use documented requests, treatment plans, or referrals in the clinical record. An incidental finding alone does not establish a requested service. Unrequested reviews are skipped without a clinical finding."
+
+predicate rehabilitation_requested: "Does the clinical record request or plan post-operative rehabilitation, including physical or occupational therapy?"
+  label: "Post-op rehabilitation requested?"
+  context: "Use documented requests, treatment plans, or referrals in the clinical record. An incidental finding alone does not establish a requested service. Unrequested reviews are skipped without a clinical finding."
+
+predicate support_requested: "Does the clinical record request or plan recovery support, including discharge planning, home services, or facility placement?"
+  label: "Recovery-support planning requested?"
+  context: "Use documented requests, treatment plans, or referrals in the clinical record. An incidental finding alone does not establish a requested service. Unrequested reviews are skipped without a clinical finding."
+
+define fracture_criteria: any(fracture, nonunion, complex_fracture)
+  label: "Fracture indication"
+  doc: "Supplied guideline criteria."
+
+define alternatives: all(injections_failed, rehab_failed)
+  label: "Both alternative therapies failed"
+  doc: "Supplied guideline criteria."
+
+define degeneration_criteria: all(advanced_degeneration, refractory_symptoms)
+  label: "Degenerative changes and symptoms"
+  doc: "Supplied guideline criteria."
+
+define rehab_need: any(limited_rom, mobility_loss)
+  label: "Functional need · either"
+  doc: "Synthetic service-planning rule, not a guideline authorization standard."
+
+define rehab_plan: all(hemodynamics, rehab_cleared, therapy_prescribed, participation)
+  label: "Safe rehabilitation plan · synthetic"
+  doc: "Synthetic service-planning rule, not a guideline authorization standard."
+
+define support_need: any(needs_mobility_help, needs_dressing_help)
+  label: "Support need · either"
+  doc: "Synthetic service-planning rule, not a guideline authorization standard."
+
+define home_criteria: all(support_need, home_ready, care_tasks, home_services)
+  label: "Home support plan · synthetic"
+  doc: "Synthetic service-planning rule, not a guideline authorization standard."
+
+define facility_criteria: all(support_need, facility_ready, facility_plan, transport)
+  label: "Facility support plan · synthetic"
+  doc: "Synthetic service-planning rule, not a guideline authorization standard."
+
+outcome approved: "Approved"
+outcome needs_review: "Needs review"
+
+path fracture_approved: fracture_requested => fracture_criteria => approved
+path fracture_review: fracture_requested => fracture_criteria !=> needs_review
+path degeneration_approved: degeneration_requested => degeneration_criteria => alternatives => approved
+path degeneration_review: degeneration_requested => degeneration_criteria !=> needs_review
+path alternatives_review: degeneration_requested => degeneration_criteria => alternatives !=> needs_review
+path rehab_approved: rehabilitation_requested => rehab_need => rehab_plan => approved
+path rehab_need_review: rehabilitation_requested => rehab_need !=> needs_review
+path rehab_plan_review: rehabilitation_requested => rehab_need => rehab_plan !=> needs_review
+path home_approved: support_requested => home_criteria => approved
+path facility_approved: support_requested => home_criteria !=> facility_criteria => approved
+path support_review: support_requested => home_criteria !=> facility_criteria !=> needs_review

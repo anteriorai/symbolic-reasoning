@@ -1,0 +1,41 @@
+==================
+Comments between declaration properties
+==================
+
+predicate p: "Q" # inline comment
+  label: "Predicate"
+  # standalone comment
+  context: "Context"
+outcome o: "O" # inline comment
+  label: "Outcome"
+define a: all(p) # inline comment
+  label: "Aggregator"
+path decision: a => o # inline comment
+  label: "Path"
+
+---
+
+(source_file
+  (predicate_definition
+    (identifier)
+    (string)
+    (comment)
+    (label_property (string))
+    (comment)
+    (context_property (string)))
+  (outcome_definition
+    (identifier)
+    (string)
+    (comment)
+    (label_property (string)))
+  (aggregator_definition
+    (identifier)
+    (expression (all_expression (argument_list (expression (reference (identifier))))))
+    (comment)
+    (label_property (string)))
+  (path
+    (identifier)
+    (expression (reference (identifier)))
+    (identifier)
+    (comment)
+    (label_property (string))))

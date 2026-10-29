@@ -1,0 +1,7 @@
+# Build outputs
+dist/
+*.tsbuildinfo
+
+# WASM files (copied from @srg/grammar during build)
+wasm/
+

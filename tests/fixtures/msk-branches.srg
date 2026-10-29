@@ -1,0 +1,51 @@
+# Structural regression for the four independently requested MSK reviews.
+predicate fracture_requested: "Fracture review requested?"
+predicate degeneration_requested: "Degenerative-joint review requested?"
+predicate rehabilitation_requested: "Rehabilitation requested?"
+predicate support_requested: "Recovery-support planning requested?"
+predicate fracture: "Displaced or unstable fracture?"
+predicate nonunion: "Non-union or malunion?"
+predicate complex_fracture: "Complex fracture?"
+predicate advanced_degeneration: "Advanced degeneration?"
+predicate refractory_symptoms: "Refractory symptoms?"
+predicate injections_failed: "Injections failed?"
+predicate rehab_failed: "Conservative rehabilitation failed?"
+predicate limited_rom: "Limited range of motion?"
+predicate mobility_loss: "Mobility loss?"
+predicate hemodynamics: "Hemodynamically stable?"
+predicate rehab_cleared: "Cleared for rehabilitation?"
+predicate therapy_prescribed: "Therapy prescribed?"
+predicate participation: "Able to participate?"
+predicate needs_mobility_help: "Needs mobility help?"
+predicate needs_dressing_help: "Needs dressing help?"
+predicate home_ready: "Home ready?"
+predicate care_tasks: "Care tasks manageable?"
+predicate home_services: "Home services arranged?"
+predicate facility_ready: "Facility ready?"
+predicate facility_plan: "Facility care plan agreed?"
+predicate transport: "Transport arranged?"
+
+define fracture_criteria: any(fracture, nonunion, complex_fracture)
+define degeneration_criteria: all(advanced_degeneration, refractory_symptoms)
+define alternatives: all(injections_failed, rehab_failed)
+define rehab_need: any(limited_rom, mobility_loss)
+define rehab_plan: all(hemodynamics, rehab_cleared, therapy_prescribed, participation)
+define support_need: any(needs_mobility_help, needs_dressing_help)
+  label: "Support need"
+define home_criteria: all(support_need, home_ready, care_tasks, home_services)
+define facility_criteria: all(support_need, facility_ready, facility_plan, transport)
+
+outcome approved: "Approved"
+outcome needs_review: "Needs review"
+
+path fracture_approved: fracture_requested => fracture_criteria => approved
+path fracture_review: fracture_requested => fracture_criteria !=> needs_review
+path degeneration_approved: degeneration_requested => degeneration_criteria => alternatives => approved
+path degeneration_review: degeneration_requested => degeneration_criteria !=> needs_review
+path alternatives_review: degeneration_requested => degeneration_criteria => alternatives !=> needs_review
+path rehab_approved: rehabilitation_requested => rehab_need => rehab_plan => approved
+path rehab_need_review: rehabilitation_requested => rehab_need !=> needs_review
+path rehab_plan_review: rehabilitation_requested => rehab_need => rehab_plan !=> needs_review
+path home_approved: support_requested => home_criteria => approved
+path facility_approved: support_requested => home_criteria !=> facility_criteria => approved
+path support_review: support_requested => home_criteria !=> facility_criteria !=> needs_review

@@ -1,0 +1,62 @@
+{
+  "name": "@anteriorai/srg-parser",
+  "version": "0.6.1",
+  "private": false,
+  "license": "Apache-2.0",
+  "author": "Anterior, Inc.",
+  "description": "Universal parser for SRG (Symbolic Reasoning Graph) language - works in browser and Node.js",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./wasm/*": "./wasm/*"
+  },
+  "scripts": {
+    "copy-wasm": "node scripts/copy-wasm.js",
+    "build": "npm run copy-wasm && tsc",
+    "prepare": "npm run build",
+    "dev": "tsc --watch",
+    "test": "npm run build && node --test test/parser.test.js",
+    "clean": "rm -rf dist wasm"
+  },
+  "files": [
+    "dist/**/*",
+    "wasm/**/*.wasm",
+    "wasm/LICENSE.tree-sitter",
+    "README.md"
+  ],
+  "keywords": [
+    "srg",
+    "parser",
+    "ast",
+    "tree-sitter",
+    "symbolic-reasoning",
+    "browser",
+    "nodejs"
+  ],
+  "dependencies": {
+    "@anteriorai/srg-grammar": "^0.6.1",
+    "web-tree-sitter": "0.25.10"
+  },
+  "devDependencies": {
+    "@types/node": "20.19.27",
+    "typescript": "5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anteriorai/symbolic-reasoning.git",
+    "directory": "packages/srg-parser"
+  },
+  "homepage": "https://github.com/anteriorai/symbolic-reasoning/tree/master/packages/srg-parser#readme",
+  "bugs": "https://github.com/anteriorai/symbolic-reasoning/issues",
+  "engines": {
+    "node": ">=22"
+  }
+}

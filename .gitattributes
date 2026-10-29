@@ -1,0 +1,17 @@
+# Normalize line endings
+* text=auto
+packages/srg-grammar/* text eol=lf
+
+# Generated Python types from schema
+src/symbolic_reasoning/gen/py/** linguist-generated=true
+
+# Generated TypeScript types from schema
+packages/srg-types/src/generated/srg.ts linguist-generated=true -diff
+packages/srg-parser/src/generated/ast.ts linguist-generated=true
+
+# Tree-sitter generated files
+packages/srg-grammar/src/grammar.json linguist-generated=true -diff
+packages/srg-grammar/src/node-types.json linguist-generated=true -diff
+packages/srg-grammar/src/parser.c linguist-generated=true -diff
+packages/srg-grammar/src/tree_sitter/** linguist-generated=true -diff
+packages/srg-grammar/tree-sitter-srg.wasm linguist-generated=true binary -diff
