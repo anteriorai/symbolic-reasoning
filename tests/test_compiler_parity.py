@@ -558,8 +558,8 @@ def test_missing_symbols(source: str) -> None:
     assert _typescript(source)["ok"] is False
 
 
-def test_msk_shared_prefix_and_negative_edge_parity() -> None:
-    source = (ROOT / "tests" / "fixtures" / "msk-branches.srg").read_text()
+def test_medical_necessity_shared_prefix_and_negative_edge_parity() -> None:
+    source = (ROOT / "tests" / "fixtures" / "medical-necessity-branches.srg").read_text()
     _assert_compilation_parity(source)
     assert _typescript(source, ast=True) == {
         "ok": True,

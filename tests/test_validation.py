@@ -29,7 +29,7 @@ def assert_rejected(payload: dict[str, Any], message: str) -> None:
     assert str(error.value) == message
 
 
-@pytest.mark.parametrize("name", ["msk-review", "underwriting"])
+@pytest.mark.parametrize("name", ["medical-necessity", "underwriting"])
 def test_shared_policies_validate_without_mutation(name: str) -> None:
     path = Path(__file__).parents[1] / "examples" / "data" / name / "policy.srg"
     graph = compile_srg_file(path)

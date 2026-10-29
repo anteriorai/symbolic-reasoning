@@ -387,7 +387,7 @@ async def test_executions_are_independent() -> None:
         )
 
 
-@pytest.mark.parametrize("name", ["msk-review", "underwriting"])
+@pytest.mark.parametrize("name", ["medical-necessity", "underwriting"])
 async def test_shared_policy_starts(name: str) -> None:
     policy_path = Path(__file__).parents[2] / "examples" / "data" / name / "policy.srg"
     graph = compile_srg_file(policy_path)
@@ -405,11 +405,11 @@ async def test_shared_policy_starts(name: str) -> None:
 
 
 async def test_no_outcome_is_resolved_with_explored_paths() -> None:
-    policy_path = Path(__file__).parents[2] / "examples/data/msk-review/policy.srg"
+    policy_path = Path(__file__).parents[2] / "examples/data/medical-necessity/policy.srg"
     graph = compile_srg_file(policy_path)
-    async with Client(create_srg_mcp(srgs={"msk": graph})) as client:
+    async with Client(create_srg_mcp(srgs={"medical-necessity": graph})) as client:
         started = await call(
-            client, "start_execution", coverage="minimal", srg_id="msk"
+            client, "start_execution", coverage="minimal", srg_id="medical-necessity"
         )
         execution_id = started["execution_id"]
         completed = await call(

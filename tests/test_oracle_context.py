@@ -198,7 +198,7 @@ def test_repeated_convergence_includes_longer_paths() -> None:
 
 
 def test_requests_list_each_answer_once_and_traces_only_reference_them() -> None:
-    policy = Path(__file__).parent.parent / "examples/data/msk-review/policy.srg"
+    policy = Path(__file__).parent.parent / "examples/data/medical-necessity/policy.srg"
     execution = SRGExecution(srg=compile_srg_file(policy))
     requests = []
     while (request := next_request(execution, Coverage.REACHABLE)) is not None:

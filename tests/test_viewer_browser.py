@@ -331,9 +331,9 @@ def test_nested_groups_show_predicates_and_batch_highlights_together(
 def test_wide_replay_keeps_parallel_batches_visible_in_fit(
     browser: Any, tmp_path: Path
 ) -> None:
-    recording = Path(__file__).parents[1] / "examples/data/msk-review/replay.json"
+    recording = Path(__file__).parents[1] / "examples/data/medical-necessity/replay.json"
     history = load_history_file(recording)
-    path = tmp_path / "msk.html"
+    path = tmp_path / "medical-necessity.html"
     save_history_html(history, path)
     page = browser.new_page(viewport={"width": 1600, "height": 1050})
     errors = []

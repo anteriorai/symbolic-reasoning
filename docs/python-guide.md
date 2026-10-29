@@ -113,7 +113,7 @@ Replay a recording as an interactive, offline HTML page:
 uv run python -m symbolic_reasoning.viewer execution.json --open
 ```
 
-Try it with the bundled example: `examples/data/msk-review/replay.json`. From Python, use `symbolic_reasoning.viewer.save_history_html(history, "replay.html")`.
+Try it with the bundled example: `examples/data/medical-necessity/replay.json`. From Python, use `symbolic_reasoning.viewer.save_history_html(history, "replay.html")`.
 
 ## Use with agents
 

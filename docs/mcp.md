@@ -14,7 +14,7 @@ To try the bundled examples from a clone of the repository, run `uv sync --extra
 
 ```bash
 uv run python -m symbolic_reasoning.mcp \
-  --srg msk-review examples/data/msk-review/policy.srg \
+  --srg medical-necessity examples/data/medical-necessity/policy.srg \
   --srg underwriting examples/data/underwriting/policy.srg
 ```
 

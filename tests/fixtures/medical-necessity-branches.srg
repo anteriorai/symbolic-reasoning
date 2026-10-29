@@ -1,4 +1,4 @@
-# Structural regression for the four independently requested MSK reviews.
+# Structural regression for the four independently requested medical necessity reviews.
 predicate fracture_requested: "Fracture review requested?"
 predicate degeneration_requested: "Degenerative-joint review requested?"
 predicate rehabilitation_requested: "Rehabilitation requested?"
