@@ -87,8 +87,7 @@ Sent to Manual Review
 
 ## Learn more
 
-- [Quick reference](https://github.com/anteriorai/symbolic-reasoning/blob/master/docs/SRG-QUICK-REFERENCE.md): the `.srg` language.
-- [Authoring guide](https://github.com/anteriorai/symbolic-reasoning/blob/master/docs/SRG-AUTHORING-GUIDE.md): how policies are evaluated and how to design them.
+- [The SRG language](https://github.com/anteriorai/symbolic-reasoning/blob/master/docs/srg-language.md): the `.srg` syntax, how policies are evaluated and how to design them.
 - [Python guide](https://github.com/anteriorai/symbolic-reasoning/blob/master/docs/python-guide.md): oracles, step-by-step solving, coverage, reasoning traces, recording and replay, and the API reference.
 
 ## Use with agents
