@@ -148,14 +148,14 @@ path two: all(a, b) !=> y
 @pytest.mark.parametrize(
     ("path", "support_label"),
     [
-        (Path(__file__).parent / "fixtures/msk-branches.srg", "Support need"),
+        (Path(__file__).parent / "fixtures/medical-necessity-branches.srg", "Support need"),
         (
-            Path(__file__).parents[1] / "examples/data/msk-review/policy.srg",
+            Path(__file__).parents[1] / "examples/data/medical-necessity/policy.srg",
             "Support need · either",
         ),
     ],
 )
-def test_msk_topology_matches_the_manually_authored_graph(
+def test_medical_necessity_topology_matches_the_manually_authored_graph(
     path: Path, support_label: str
 ) -> None:
     graph = compile_srg_file(path)

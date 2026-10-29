@@ -114,4 +114,4 @@ The [Jev example](https://github.com/anteriorai/symbolic-reasoning/tree/master/e
 ## Examples
 
 - [`examples/integrations/jev`](https://github.com/anteriorai/symbolic-reasoning/tree/master/examples/integrations/jev): an oracle backed by the Jev decision model, which answers a policy's questions from Markdown case files and records the run.
-- [`examples/data`](https://github.com/anteriorai/symbolic-reasoning/tree/master/examples/data): an underwriting policy with an application, and an MSK review policy with a synthetic clinical record and a replay.
+- [`examples/data`](https://github.com/anteriorai/symbolic-reasoning/tree/master/examples/data): an underwriting policy with an application, and a medical necessity review policy with a synthetic clinical record and a replay.

@@ -17,13 +17,13 @@ uv run --env-file .env --project examples/integrations/jev --locked \
   --case examples/data/underwriting/application.md
 ```
 
-Or run the [MSK example](../../data/msk-review/README.md):
+Or run the [medical necessity example](../../data/medical-necessity/README.md):
 
 ```bash
 uv run --env-file .env --project examples/integrations/jev --locked \
   python examples/integrations/jev/agent.py \
-  --policy examples/data/msk-review/policy.srg \
-  --case examples/data/msk-review/clinical_record_synthetic.md
+  --policy examples/data/medical-necessity/policy.srg \
+  --case examples/data/medical-necessity/clinical_record_synthetic.md
 ```
 
 Requires [uv](https://docs.astral.sh/uv/getting-started/installation/); `uv run` installs dependencies automatically. Each run makes live API calls and prints the outcomes and answer probabilities.

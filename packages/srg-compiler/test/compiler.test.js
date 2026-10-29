@@ -1354,9 +1354,9 @@ path no: ${expression} !=> y
       ]);
     });
   }
-  it('compiles the MSK fixture to four branches without duplicating decisions', async () => {
+  it('compiles the medical necessity fixture to four branches without duplicating decisions', async () => {
     const { readFile } = await import('node:fs/promises');
-    const source = await readFile(new URL('../../../tests/fixtures/msk-branches.srg', import.meta.url), 'utf8');
+    const source = await readFile(new URL('../../../tests/fixtures/medical-necessity-branches.srg', import.meta.url), 'utf8');
     const srg = compile(await parse(source));
     assert.equal(Object.keys(srg.nodes).length, 14);
     assert.equal(Object.keys(srg.edges).length, 22);

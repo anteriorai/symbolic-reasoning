@@ -282,7 +282,7 @@ def test_projection_stores_answer_content_once_and_does_not_mutate_history(
 
 
 def test_bundled_replay_loads_without_a_builder(tmp_path: Path) -> None:
-    recording = Path(__file__).parents[1] / "examples/data/msk-review/replay.json"
+    recording = Path(__file__).parents[1] / "examples/data/medical-necessity/replay.json"
     history = load_history_file(recording)
     assert history.srg == compile_srg_file(recording.with_name("policy.srg"))
     final = snapshot(history)
