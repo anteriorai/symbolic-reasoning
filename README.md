@@ -104,7 +104,7 @@ uv run python -m symbolic_reasoning.mcp --srg loan_approval loan_approval.srg
 
 The server talks over stdio, so a host such as Claude Code launches it. See [MCP setup](https://github.com/anteriorai/symbolic-reasoning/blob/master/docs/mcp.md) to connect one.
 
-To use the tools without MCP, register `symbolic_reasoning.tools.TOOLS` with your own agent framework. Each tool comes with its name, description and JSON schemas, and you bind it to an `ExecutionStore` that keeps your executions. See the [Python guide](https://github.com/anteriorai/symbolic-reasoning/blob/master/docs/python-guide.md#use-with-agents).
+To use the tools without MCP, see the [Python guide](https://github.com/anteriorai/symbolic-reasoning/blob/master/docs/python-guide.md#use-with-agents).
 
 ## Use with decision models
 
