@@ -8,7 +8,7 @@
 
 Policies are everywhere: clinical guidelines, insurance coverage criteria, lending rules, compliance checklists. Each is a set of rules that maps the facts of a case to an outcome.
 
-`symbolic-reasoning` evaluates policies deterministically. You write a policy in the `.srg` language; the library works out which questions need answering, asks your oracle (an LLM, a database, a human), and returns the outcomes with a reasoning trace.
+`symbolic-reasoning` evaluates policies deterministically. Given a policy, it works out which questions need answering, asks your oracle (an LLM, a database, a human), and returns the outcomes with a reasoning trace.
 
 | Concern | Handled by |
 |---|---|
