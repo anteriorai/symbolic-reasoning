@@ -6,6 +6,8 @@
 
 > **Research preview.** `symbolic-reasoning` is pre-1.0 and under active development. The API, the `.srg` language and output formats may change between minor releases without deprecation. Review its outputs before relying on them for consequential decisions. Provided "as is", without warranty, under the [Apache 2.0 License](https://github.com/anteriorai/symbolic-reasoning/blob/master/LICENSE).
 
+Policies are everywhere: clinical guidelines, insurance coverage criteria, lending rules, compliance checklists. Each is a set of rules that maps the facts of a case to an outcome.
+
 `symbolic-reasoning` evaluates policies deterministically. You write a policy in the `.srg` language; the library works out which questions need answering, asks your oracle (an LLM, a database, a human), and returns the outcomes with a reasoning trace.
 
 | Concern | Handled by |
