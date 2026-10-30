@@ -1,6 +1,6 @@
-# symbolic-reasoning
-
 > **Research preview.** `symbolic-reasoning` is pre-1.0 and under active development. The API, the `.srg` language and output formats may change between minor releases without deprecation. Review its outputs before relying on them for consequential decisions. Provided "as is", without warranty, under the [Apache 2.0 License](https://github.com/anteriorai/symbolic-reasoning/blob/master/LICENSE).
+
+# symbolic-reasoning
 
 <img src="https://raw.githubusercontent.com/anteriorai/symbolic-reasoning/master/docs/images/symbolic-reasoning.png" width="900" alt="A policy compiles to a symbolic reasoning graph that the solver evaluates. The solver asks an oracle, which draws on case knowledge, and the result is a reasoning trace that leads to an outcome." />
 
