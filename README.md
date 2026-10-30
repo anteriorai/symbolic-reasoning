@@ -1,6 +1,6 @@
 # symbolic-reasoning
 
-> **Research preview:** pre-1.0, so the API and the `.srg` language may change between releases. See [Status](https://github.com/anteriorai/symbolic-reasoning#status).
+> **Research preview:** pre-1.0, so the API and the `.srg` language may change between releases.
 
 <img src="https://raw.githubusercontent.com/anteriorai/symbolic-reasoning/master/docs/images/symbolic-reasoning.png" width="900" alt="A policy compiles to a symbolic reasoning graph that the solver evaluates. The solver asks an oracle, which draws on case knowledge, and the result is a reasoning trace that leads to an outcome." />
 
@@ -122,7 +122,3 @@ The [Jev example](https://github.com/anteriorai/symbolic-reasoning/tree/master/e
 
 - [`examples/integrations/jev`](https://github.com/anteriorai/symbolic-reasoning/tree/master/examples/integrations/jev): an oracle backed by the Jev decision model, which answers a policy's questions from Markdown case files and records the run.
 - [`examples/data`](https://github.com/anteriorai/symbolic-reasoning/tree/master/examples/data): an underwriting policy with an application, and a medical necessity review policy with a synthetic clinical record and a replay.
-
-## Status
-
-`symbolic-reasoning` is a research preview: pre-1.0 and under active development. The API, the `.srg` language and output formats may change between minor releases without deprecation. Review its outputs before relying on them for consequential decisions. Provided "as is", without warranty, under the [Apache 2.0 License](https://github.com/anteriorai/symbolic-reasoning/blob/master/LICENSE).
