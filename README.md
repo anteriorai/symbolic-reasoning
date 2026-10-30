@@ -1,18 +1,25 @@
 # symbolic-reasoning
 
-<img src="https://raw.githubusercontent.com/anteriorai/symbolic-reasoning/master/docs/images/symbolic-reasoning.png" width="900" alt="A policy compiles to a symbolic reasoning graph that the solver evaluates. The solver asks an oracle, which draws on case knowledge, and the result is a reasoning trace that leads to an outcome." />
-
-**Policy-adherent, auditable reasoning for AI agents.**
-
 > **Research preview.** `symbolic-reasoning` is pre-1.0 and under active development. The API, the `.srg` language and output formats may change between minor releases without deprecation. Review its outputs before relying on them for consequential decisions. Provided "as is", without warranty, under the [Apache 2.0 License](https://github.com/anteriorai/symbolic-reasoning/blob/master/LICENSE).
 
-`symbolic-reasoning` evaluates policies deterministically. You write a policy in the `.srg` language; the library works out which questions need answering, asks your oracle (an LLM, a database, a human), and returns the outcomes with a reasoning trace.
+<img src="https://raw.githubusercontent.com/anteriorai/symbolic-reasoning/master/docs/images/symbolic-reasoning.png" width="900" alt="A policy compiles to a symbolic reasoning graph that the solver evaluates. The solver asks an oracle, which draws on case knowledge, and the result is a reasoning trace that leads to an outcome." />
+
+**Make your agents policy-adherent.**
+
+Policies are everywhere: clinical guidelines, insurance coverage criteria, lending rules, compliance checklists. An agent asked to follow one can skip a rule, misapply it, or talk its way to the wrong outcome.
+
+`symbolic-reasoning` takes the logic out of the model. The agent answers questions about the case; the library decides which questions to ask and what the answers add up to, and returns the outcome with a reasoning trace.
+
+Use it two ways:
+
+- **[As agent tools.](https://github.com/anteriorai/symbolic-reasoning#use-with-agents)** Your agent works through the policy with tool calls, over MCP or in any agent framework.
+- **[As a workflow.](https://github.com/anteriorai/symbolic-reasoning#quick-start)** Your code drives the solve and an oracle (an LLM, a database, a human) answers each round of questions.
 
 | Concern | Handled by |
 |---|---|
 | What are the rules? | Your policy (`.srg`) |
-| What is true in this case? | Your oracle |
-| Which question or decision follows? | The runtime |
+| What is true in this case? | Your agent or oracle |
+| Which question or decision follows? | The library |
 | Why was that decision made? | The reasoning trace |
 
 ## Installation
